@@ -1,0 +1,32 @@
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+         http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.1.xsd">
+          
+        <!-- Unilog client property , these properties are dummy properties-starts here --> 
+        <property name="unilog.datasource.host" value="'default'"/>
+        <property name="unilog.datasource.port" value="0000"/>
+        <property name="unilog.datasource.username" value="'dummy'"/>
+        <property name="unilog.datasource.secret" value="'dummy'"/>
+        <property name="unilog.datasource.sid" value="'dummy'"/>
+        <!-- Dummy properties - ends here-->
+        
+     <!--    <property name="unilog.client.oauth.id" value="'unilog'" />
+        unilogS#cr#t
+        <property name="unilog.client.oauth.secret" value="'PFGwxuIxohWr-I-iW8rb_A'"/>
+        
+        $deity010203
+        <property name="unilog.superadmin.secret" value="'LygWTTOMTNnHJCps4tsvJA'"/>
+        
+        $admin010203
+        <property name="unilog.admin.secret" value="'s5SDJdzdFd6OUNDIUz3GKQ'"/> -->
+        
+</databaseChangeLog>
+
+   
+
+
+
+
+
+

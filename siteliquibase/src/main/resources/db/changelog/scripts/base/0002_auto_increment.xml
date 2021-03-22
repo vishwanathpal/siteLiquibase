@@ -1,0 +1,106 @@
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+         http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.1.xsd">
+
+	<changeSet id="scripts-base-0002" author="vishwanath">
+		<addAutoIncrement tableName="websites"
+			columnName="id" columnDataType="BIGINT(20)" startWith="1" incrementBy="1" />
+		<addAutoIncrement tableName="website_warehouses"
+			columnName="id" columnDataType="BIGINT(20)" startWith="1" incrementBy="1" />	
+		<addAutoIncrement tableName="warehouse_group_mapping"
+			columnName="id" columnDataType="BIGINT(20)" startWith="1" incrementBy="1" />	
+		<addAutoIncrement tableName="warehouse_group"
+			columnName="id" columnDataType="BIGINT(20)" startWith="1" incrementBy="1" />
+		<addAutoIncrement tableName="warehouse"
+			columnName="id" columnDataType="BIGINT(20)" startWith="1" incrementBy="1" />	
+		<addAutoIncrement tableName="warehouse_items"
+			columnName="id" columnDataType="BIGINT(20)" startWith="1" incrementBy="1" />	
+		<addAutoIncrement tableName="warehouse_freight_rules"
+			columnName="id" columnDataType="BIGINT(20)" startWith="1" incrementBy="1" />	
+		<addAutoIncrement tableName="warehouse_coupons"
+			columnName="id" columnDataType="BIGINT(20)" startWith="1" incrementBy="1" />	
+		<addAutoIncrement tableName="coupons"
+			columnName="id" columnDataType="BIGINT(20)" startWith="1" incrementBy="1" />
+		<addAutoIncrement tableName="warehouse_catalogs"
+			columnName="id" columnDataType="BIGINT(20)" startWith="1" incrementBy="1" />
+		<addAutoIncrement tableName="warehouse_asset"
+			columnName="id" columnDataType="BIGINT(20)" startWith="1" incrementBy="1" />
+		<addAutoIncrement tableName="asset"
+			columnName="id" columnDataType="BIGINT(20)" startWith="1" incrementBy="1" />
+		<addAutoIncrement tableName="warehouse_cluster"
+			columnName="id" columnDataType="BIGINT(20)" startWith="1" incrementBy="1" />
+		<addAutoIncrement tableName="warehouse_cluster_mapping"
+			columnName="id" columnDataType="BIGINT(20)" startWith="1" incrementBy="1" />	
+		<addAutoIncrement tableName="quote_request"
+			columnName="id" columnDataType="BIGINT(20)" startWith="1" incrementBy="1" />	
+		<addAutoIncrement tableName="quote_request_items"
+			columnName="id" columnDataType="BIGINT(20)" startWith="1" incrementBy="1" />
+		<addAutoIncrement tableName="orders"
+			columnName="id" columnDataType="BIGINT(20)" startWith="1" incrementBy="1" />									
+		<addAutoIncrement tableName="order_recurrence_schedule"
+			columnName="id" columnDataType="BIGINT(20)" startWith="1" incrementBy="1" />
+		<addAutoIncrement tableName="order_coupon_data"
+			columnName="id" columnDataType="BIGINT(20)" startWith="1" incrementBy="1" />	
+		<addAutoIncrement tableName="order_payment"
+			columnName="id" columnDataType="BIGINT(20)" startWith="1" incrementBy="1" />
+		<addAutoIncrement tableName="order_items"
+			columnName="id" columnDataType="BIGINT(20)" startWith="1" incrementBy="1" />	
+		<addAutoIncrement tableName="order_items_shipped"
+			columnName="id" columnDataType="BIGINT(20)" startWith="1" incrementBy="1" />	
+		<addAutoIncrement tableName="order_status"
+			columnName="id" columnDataType="BIGINT(20)" startWith="1" incrementBy="1" />	
+		<addAutoIncrement tableName="order_pools"
+			columnName="id" columnDataType="BIGINT(20)" startWith="1" incrementBy="1" />	
+		<addAutoIncrement tableName="order_pool_items"
+			columnName="id" columnDataType="BIGINT(20)" startWith="1" incrementBy="1" />
+		<addAutoIncrement tableName="comm_feature_options"
+			columnName="id" columnDataType="BIGINT(20)" startWith="1" incrementBy="1" />	
+		<addAutoIncrement tableName="customer_comm_feature_option_values"
+			columnName="id" columnDataType="BIGINT(20)" startWith="1" incrementBy="1" />	
+		<addAutoIncrement tableName="Customer"
+			columnName="id" columnDataType="BIGINT(20)" startWith="1" incrementBy="1" />
+		<addAutoIncrement tableName="customer_portal"
+			columnName="id" columnDataType="BIGINT(20)" startWith="1" incrementBy="1" />
+		<addAutoIncrement tableName="customer_catalog"
+			columnName="id" columnDataType="BIGINT(20)" startWith="1" incrementBy="1" />
+		<addAutoIncrement tableName="customer_documents"
+			columnName="id" columnDataType="BIGINT(20)" startWith="1" incrementBy="1" />
+		<addAutoIncrement tableName="customer_message"
+			columnName="id" columnDataType="BIGINT(20)" startWith="1" incrementBy="1" />
+		<addAutoIncrement tableName="message_tracker"
+			columnName="id" columnDataType="BIGINT(20)" startWith="1" incrementBy="1" />
+		<addAutoIncrement tableName="message"
+			columnName="id" columnDataType="BIGINT(20)" startWith="1" incrementBy="1" />
+		<addAutoIncrement tableName="customer_secure_portal"
+			columnName="id" columnDataType="BIGINT(20)" startWith="1" incrementBy="1" />
+		<addAutoIncrement tableName="customer_part_number"
+			columnName="id" columnDataType="BIGINT(20)" startWith="1" incrementBy="1" />
+		<addAutoIncrement tableName="customer_websites"
+			columnName="id" columnDataType="BIGINT(20)" startWith="1" incrementBy="1" />
+		<addAutoIncrement tableName="customer_category"
+			columnName="id" columnDataType="BIGINT(20)" startWith="1" incrementBy="1" />
+		<addAutoIncrement tableName="customer_category_message"
+			columnName="id" columnDataType="BIGINT(20)" startWith="1" incrementBy="1" />
+		<addAutoIncrement tableName="product_group_list"
+			columnName="id" columnDataType="BIGINT(20)" startWith="1" incrementBy="1" />		
+		<addAutoIncrement tableName="product_group_list_items"
+			columnName="id" columnDataType="BIGINT(20)" startWith="1" incrementBy="1" />
+		<!-- cart -->
+		<addAutoIncrement tableName="cart_share"
+			columnName="id" columnDataType="BIGINT(20)" startWith="1" incrementBy="1" />
+		<addAutoIncrement tableName="cart"
+			columnName="id" columnDataType="BIGINT(20)" startWith="1" incrementBy="1" />
+		<addAutoIncrement tableName="cart_items"
+			columnName="id" columnDataType="BIGINT(20)" startWith="1" incrementBy="1" />
+		<!-- Events -->
+		<addAutoIncrement tableName="events"
+			columnName="id" columnDataType="BIGINT(20)" startWith="1" incrementBy="1" />
+		<addAutoIncrement tableName="event_registration"
+			columnName="id" columnDataType="BIGINT(20)" startWith="1" incrementBy="1" />
+		<addAutoIncrement tableName="profiles"
+			columnName="id" columnDataType="BIGINT(20)" startWith="1" incrementBy="1" />
+					
+		<rollback/>
+	</changeSet>
+</databaseChangeLog>

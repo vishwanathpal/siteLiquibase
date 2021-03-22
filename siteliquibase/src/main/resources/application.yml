@@ -1,0 +1,33 @@
+security:
+  oauth2:
+    resource:
+      id: master
+
+spring:
+  liquibase:
+    change-log: classpath:/db/changelog/dev/main.xml
+  jpa:
+    database-platform: org.hibernate.dialect.MySQL5InnoDBDialect
+    open-in-view: false 
+  main:
+    allow-bean-definition-overriding: true
+  datasource:
+    url: jdbc:mysql://localhost:3306/sitedemo
+    username: root
+    password: root
+    driver-class-name: com.mysql.jdbc.Driver
+    
+master:
+  hibernate:
+    dialect: org.hibernate.dialect.MySQLDialect
+    hbm2ddl:
+      auto: none
+    show_sql: true
+    format_sql: true
+    archive:
+      autodetection: class
+    cache:
+      provider_class: org.hibernate.cache.EhCacheProvider
+    connection:
+      autocommit: false
+    generate_statistics: false 

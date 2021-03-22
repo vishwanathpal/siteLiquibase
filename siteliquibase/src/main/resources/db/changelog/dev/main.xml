@@ -1,0 +1,13 @@
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+         http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.1.xsd">
+
+		<!-- <include file="../allenv/main.xml" relativeToChangelogFile="true"/> -->
+
+		<include file="./properties_1.xml" relativeToChangelogFile="true" />
+		<include file="./main_include_1.xml" relativeToChangelogFile="true" />
+
+		<!-- <include file="./properties_2.xml" relativeToChangelogFile="true" />
+		<include file="./main_include_2.xml" relativeToChangelogFile="true" />	 -->	
+</databaseChangeLog>
