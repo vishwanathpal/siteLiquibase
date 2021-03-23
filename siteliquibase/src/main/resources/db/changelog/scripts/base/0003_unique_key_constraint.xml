@@ -2,35 +2,56 @@
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
          http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.1.xsd">
-
+ 
 	<changeSet id="scripts-base-0003" author="vishwanath">
  
 		<addUniqueConstraint columnNames="website_id, warehouse_id"
 			constraintName="website_warehouses_comp_uk_1" tableName="website_warehouses" />
 			
 		<addUniqueConstraint columnNames="code, address1, address2, country, city, state, zip"
-			constraintName="warehouse_comp_uk_2" tableName="warehouse" />	
+			constraintName="warehouse_comp_uk_1" tableName="warehouse" />	
 			
 		<addUniqueConstraint columnNames="warehouse_id, coupon_id"
 			constraintName="warehouse_coupons_comp_uk_1" tableName="warehouse_coupons" />	
 			
-		<addUniqueConstraint columnNames="name,address1"
-			constraintName="short_name_address1_comp_uk_1" tableName="customer" />
+		<!-- <addUniqueConstraint columnNames="name, address1"
+			constraintName="short_name_address1_comp_uk_1" tableName="customer" /> -->
 			
-		<addUniqueConstraint columnNames="address1,zip,entity_id,id"
-			constraintName="short_name_address1_zip_id_comp_uk_2" tableName="customer" />
+		<!-- <addUniqueConstraint columnNames="address1, zip, entity_id, id"
+			constraintName="short_name_address1_zip_id_comp_uk_2" tableName="customer" /> -->
 			
-		<addUniqueConstraint columnNames="user_name,site_id"
-			constraintName="cimm_users_user_name_site_id_comp_uk_1" tableName="cimm_users" />	
+		<addUniqueConstraint columnNames="user_name, site_id"
+			constraintName="users_comp_uk_1" tableName="users" />	
+			
+		<addUniqueConstraint columnNames="user_id, role_id"
+			constraintName="client_user_ecommerce_role_comp_uk_1" tableName="client_user_ecommerce_role" />		
 	 
+		<addUniqueConstraint columnNames="country_code, state_code"
+			constraintName="state_code_comp_uk_1" tableName="state_code" />
+		
+		<addUniqueConstraint columnNames="id, locale_id"
+			constraintName="static_pages_comp_uk_1" tableName="static_pages" />	
+		
+		<addUniqueConstraint columnNames="page_name, locale_id"
+			constraintName="static_pages_comp_uk_2" tableName="static_pages" />	
+			
+		<addUniqueConstraint columnNames="page_name, locale_id, id"
+			constraintName="static_pages_comp_uk_3" tableName="static_pages" />			
+				 
 		<rollback>
 			alter table website_warehouses drop index website_warehouses_comp_uk_1;
-			alter table warehouse drop index warehouse_comp_uk_2;
+			alter table warehouse drop index warehouse_comp_uk_1;
 			alter table warehouse_coupons drop index warehouse_coupons_comp_uk_1;
-			alter table customer drop index short_name_address1_comp_uk_1;
-			alter table customer drop index short_name_address1_zip_id_comp_uk_2;
-			alter table cimm_users drop index cimm_users_user_name_site_id_comp_uk_1;
+			<!-- alter table customer drop index short_name_address1_comp_uk_1;
+			alter table customer drop index short_name_address1_zip_id_comp_uk_2; -->
+			alter table users drop index users_comp_uk_1;
+			alter table client_user_ecommerce_role drop index state_code_comp_uk_1;
+			alter table state_code drop index state_code_comp_uk_1;
+			alter table static_pages drop index static_pages_comp_uk_1;
+			alter table static_pages drop index static_pages_comp_uk_2;
+			alter table static_pages drop index static_pages_comp_uk_3;
 		</rollback>
 		
 	</changeSet>
+	
 </databaseChangeLog>

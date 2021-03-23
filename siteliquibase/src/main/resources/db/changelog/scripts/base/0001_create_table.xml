@@ -19,6 +19,8 @@
 				<tableExists tableName="warehouse_catalogs" />
 				<tableExists tableName="warehouse_asset" />
 				<tableExists tableName="asset" />
+				<tableExists tableName="warehouse_cluster" />
+				<tableExists tableName="warehouse_cluster_mapping" />
 				<!--  order -->
 				<tableExists tableName="orders" />
 				<tableExists tableName="order_recurrence_schedule" />
@@ -41,7 +43,7 @@
 				<tableExists tableName="message_tracker" />
 				<tableExists tableName="message" />
 				<tableExists tableName="secure_portal" />
-				<tableExists tableName="customer_secure_portal" />
+				<tableExists tableName="customer_portal" />
 				<tableExists tableName="customer_part_number" />
 				<tableExists tableName="customer_websites" />
 				<tableExists tableName="customer_category" />
@@ -51,18 +53,22 @@
 				<tableExists tableName="product_group_list_items" />
 				<!-- user -->
 				<tableExists tableName="users" />
+				<!-- client_user_customer_link -->
 				<tableExists tableName="client_user_customer_link" />
+				<!-- client_user_ecommerce_role -->
 				<tableExists tableName="client_user_ecommerce_role" />
+				<!-- user_verification -->
 				<tableExists tableName="user_verification" />
 				<!-- cart -->
 				<tableExists tableName="cart_share" />
 				<tableExists tableName="cart" />
 				<tableExists tableName="cart_items" />
-				<!-- event -->
+				<!-- events -->
 				<tableExists tableName="events" />
 				<tableExists tableName="event_registration" />
 				<!-- profiles -->
 				<tableExists tableName="profiles" />
+				<tableExists tableName="profile_criteria" />
 				<!-- subset -->
 				<tableExists tableName="subset" />
 				<tableExists tableName="subset_rule" />
@@ -74,14 +80,14 @@
 				<tableExists tableName="state_code" />
 				<!-- product_information_source -->
 				<tableExists tableName="product_information_source" />
-				<!-- payment_method -->
-				<tableExists tableName="payment_method" />
+				<!-- payment_methods -->
+				<tableExists tableName="payment_methods" />
 				<!-- shipping_method -->
 				<tableExists tableName="shipping_method" />
 				<!-- tax_category -->
 				<tableExists tableName="tax_category" />
-				<!-- static_page -->
-				<tableExists tableName="static_page" />
+				<!-- static_pages -->
+				<tableExists tableName="static_pages" />
 				<!-- customer_class -->
 				<tableExists tableName="customer_class" />
 				<!-- customer_credit_terms -->
@@ -94,6 +100,16 @@
 				<tableExists tableName="customer_profile" />
 				<!-- customer_price_class -->
 				<tableExists tableName="customer_price_class" />
+				<!-- order_notification_confirmation -->
+				<tableExists tableName="order_notification_confirmation" />
+				<!-- order_track_details -->
+				<tableExists tableName="order_track_details" />
+				<!-- order_shipment_details -->
+				<tableExists tableName="order_shipment_details" />
+				<!-- saved_cart -->
+				<tableExists tableName="saved_cart" />
+				<!-- saved_cart_items -->
+				<tableExists tableName="saved_cart_items" />
 			</not>
 		</preConditions>
 		
@@ -412,14 +428,14 @@
 			<column name="id" type="BIGINT(20)" remarks="primary key">
 				<constraints nullable="false" unique="true" primaryKey="true" />
 			</column>
-			<column name="item_part_number" type="VARCHAR(255)"
-				remarks="Item's part number">
-				<constraints nullable="true" unique="false" />
-			</column>
 			<!-- FK reference table warehouse -->
 			<column name="warehouse_id" type="BIGINT(20)"
 				remarks="Id of warehouse which is specifice to warehouse">
 				<constraints nullable="false" unique="false" />
+			</column>
+			<column name="item_part_number" type="VARCHAR(255)"
+				remarks="Item's part number">
+				<constraints nullable="true" unique="false" />
 			</column>
 			<column name="vendor_number" type="VARCHAR(45)"
 				remarks="Vendor number which specifice to each vendor">
@@ -870,6 +886,105 @@
 				<constraints nullable="true" unique="false" />
 			</column>
 		</createTable>	
+
+		<createTable tableName="warehouse_cluster"
+			remarks="A table to contain all information about warehouse's cluster">
+			<column name="id" type="BIGINT(20)" remarks="primary key">
+				<constraints nullable="false" unique="true" primaryKey="true" />
+			</column>
+			<column name="description" type="varchar(500)"
+				 remarks="Explanation about the record">
+				<constraints nullable="true" unique="false" />
+			</column>
+			<column name="customer_name" type="varchar(50)"
+				 remarks="Explanation about the record">
+				<constraints nullable="true" unique="false" />
+			</column>
+			<column name="subset_id" type="BIGINT(20)"
+				remarks="Subset id">
+				<constraints nullable="true" unique="false" />
+			</column>
+			<column name="additional_properties" type="varchar(500)"
+				 remarks="Explanation about the addtional properties">
+				<constraints nullable="true" unique="false" />
+			</column>
+			<column name="is_test_record" type="BIT(1)" defaultValue="0"
+				remarks="1 indicate test record true, and 0 indicate false, not test records">
+				<constraints nullable="false" unique="false" />
+			</column>
+			<column name="locked" type="BIT(1)" defaultValue="0"
+				remarks="1 indicate record locked true, and 0 indicate record not locked false">
+				<constraints nullable="false" unique="false" />
+			</column>
+			<column name="record_status" type="ENUM('a','d','i')" defaultValue="a"
+				remarks="Record status a=active, d=deleted, i=inactive">
+				<constraints nullable="false" unique="false" />
+			</column>
+			<column name="user_created" type="BIGINT(20)"
+				remarks="User who created this record">
+				<constraints nullable="true" unique="false" />
+			</column>
+			<column name="user_edited" type="BIGINT(20)"
+				remarks="User who modified this record">
+				<constraints nullable="true" unique="false" />
+			</column>
+			<column name="created_datetime" type="TIMESTAMP"
+				defaultValueComputed="CURRENT_TIMESTAMP"
+				remarks="Date and time at which the record has been created">
+				<constraints nullable="true" unique="false" />
+			</column>
+			<column name="updated_datetime" type="TIMESTAMP"
+				remarks="Date and time at which the record has been updated">
+				<constraints nullable="true" unique="false" />
+			</column>
+		</createTable>	
+
+		<createTable tableName="warehouse_cluster_mapping"
+			remarks="A table to contain all information about mapping between warehouse and warehouse's cluster">
+			<column name="id" type="BIGINT(20)" remarks="primary key">
+				<constraints nullable="false" unique="true" primaryKey="true" />
+			</column>
+			<!-- FK reference table warehouse -->
+			<column name="warehouse_id" type="BIGINT(20)"
+				remarks="warehouse id">
+				<constraints nullable="true" unique="false" />
+			</column>
+			<!-- FK reference table warehouse_cluster -->
+			<column name="warehouse_cluster_id" type="BIGINT(20)"
+				remarks="warehouse cluster id">
+				<constraints nullable="true" unique="false" />
+			</column>
+			<column name="is_test_record" type="BIT(1)" defaultValue="0"
+				remarks="1 indicate test record true, and 0 indicate false, not test records">
+				<constraints nullable="false" unique="false" />
+			</column>
+			<column name="locked" type="BIT(1)" defaultValue="0"
+				remarks="1 indicate record locked true, and 0 indicate record not locked false">
+				<constraints nullable="false" unique="false" />
+			</column>
+			<column name="record_status" type="ENUM('a','d','i')" defaultValue="a"
+				remarks="Record status a=active, d=deleted, i=inactive">
+				<constraints nullable="false" unique="false" />
+			</column>
+			<column name="user_created" type="BIGINT(20)"
+				remarks="User who created this record">
+				<constraints nullable="true" unique="false" />
+			</column>
+			<column name="user_edited" type="BIGINT(20)"
+				remarks="User who modified this record">
+				<constraints nullable="true" unique="false" />
+			</column>
+			<column name="created_datetime" type="TIMESTAMP"
+				defaultValueComputed="CURRENT_TIMESTAMP"
+				remarks="Date and time at which the record has been created">
+				<constraints nullable="true" unique="false" />
+			</column>
+			<column name="updated_datetime" type="TIMESTAMP"
+				remarks="Date and time at which the record has been updated">
+				<constraints nullable="true" unique="false" />
+			</column>
+		</createTable>
+
 <!-- warehouses end here -->
 		
 <!-- Order start here -->
@@ -878,12 +993,12 @@
 			<column name="id" type="BIGINT(20)" remarks="primary key">
 				<constraints nullable="false" unique="true" primaryKey="true" />
 			</column>
-			<!--  FK reference table WEBSITES -->
+			<!--  FK reference table websites -->
 			<column name="product_instance_id" type="BIGINT(20)"
 				remarks="Product instance id">
-				<constraints nullable="true" unique="false" />
+				<constraints nullable="false" unique="false" />
 			</column>
-			<!--  FK reference table CIMM_USERS -->
+			<!--  FK reference table users -->
 			<column name="user_id" type="BIGINT(20)"
 				remarks="User id who placed order">
 				<constraints nullable="false" unique="false" />
@@ -898,7 +1013,7 @@
 			</column>
 			<column name="order_number" type="VARCHAR(20)"
 				remarks="Order Number Generated">
-				<constraints nullable="false" unique="true" />
+				<constraints nullable="false" unique="true" uniqueConstraintName="orders_order_number_uk_1"/>
 			</column>
 			<column name="sub_order_number" type="VARCHAR(100)"
 				remarks="In the event of ship to me, pickup, ship to store, the order creates 
@@ -1102,10 +1217,6 @@
 				remarks="Order notes">
 				<constraints nullable="true" unique="false" />
 			</column>
-			<column name="order_status" type="VARCHAR(20)"
-				remarks="Order status">
-				<constraints nullable="true" unique="false" />
-			</column>
 			<column name="order_suffix" type="VARCHAR(10)"
 				remarks="Order suffix">
 				<constraints nullable="true" unique="false" />
@@ -1160,10 +1271,6 @@
 			</column>
 			<column name="shipping_ship_to_name" type="VARCHAR(300)"
 				remarks="Name of the shipping person">
-				<constraints nullable="true" unique="false" />
-			</column>
-			<column name="status" type="VARCHAR(1)"
-				remarks="Relies on this more when there is no ERP">
 				<constraints nullable="true" unique="false" />
 			</column>
 			<column name="store_number" type="VARCHAR(50)"
@@ -1230,7 +1337,7 @@
 			<column name="id" type="BIGINT(20)" remarks="primary key">
 				<constraints nullable="false" unique="true" primaryKey="true" />
 			</column>
-			<!--  FK reference table Order -->
+			<!--  FK reference table orders -->
 			<column name="order_id" type="BIGINT(20)"
 				remarks="order id to identify order">
 				<constraints nullable="true" unique="false" />
@@ -1378,62 +1485,6 @@
 			</column>
 		</createTable>	
 		
-		<createTable tableName="order_notification_confirmation"
-			remarks="A table to contain all information about notification of order confirmation">
-			<column name="id" type="BIGINT(20)" remarks="primary key">
-				<constraints nullable="false" unique="true" primaryKey="true" />
-			</column>
-			<column name="order_id" type="BIGINT(20)"
-				remarks="order id to identify order">
-				<constraints nullable="true" unique="false" />
-			</column>
-			<column name="email_sent_to_user" type="BIT(1)"
-				remarks="Indicate 1=true (email sent to user for order confirmation), 0=false (email not sent)">
-				<constraints nullable="true" unique="false" />
-			</column>
-			<column name="email_sent_to_customer" type="BIT(1)"
-				remarks="Indicate 1=true (email sent to customer for order confirmation), 0=false (email not sent)">
-				<constraints nullable="true" unique="false" />
-			</column>
-			<column name="email_sent_to_user_date" type="TIMESTAMP"
-				remarks="Date and time, when email sent to user">
-				<constraints nullable="true" unique="false" />
-			</column>
-			<column name="email_sent_to_customer_date" type="TIMESTAMP"
-				remarks="Date and time, when email sent to customer">
-				<constraints nullable="true" unique="false" />
-			</column>
-			<column name="is_test_record" type="BIT(1)" defaultValue="0"
-				remarks="1 indicate test record true, and 0 indicate false, not test records">
-				<constraints nullable="false" unique="false" />
-			</column>
-			<column name="locked" type="BIT(1)" defaultValue="0"
-				remarks="1 indicate record locked true, and 0 indicate record not locked false">
-				<constraints nullable="false" unique="false" />
-			</column>
-			<column name="record_status" type="ENUM('a','d','i')" defaultValue="a"
-				remarks="Record status a=active, d=deleted, i=inactive">
-				<constraints nullable="false" unique="false" />
-			</column>
-			<column name="user_created" type="BIGINT(20)"
-				remarks="User who created this record">
-				<constraints nullable="true" unique="false" />
-			</column>
-			<column name="user_edited" type="BIGINT(20)"
-				remarks="User who modified this record">
-				<constraints nullable="true" unique="false" />
-			</column>
-			<column name="created_datetime" type="TIMESTAMP"
-				defaultValueComputed="CURRENT_TIMESTAMP"
-				remarks="Date and time at which the record has been created">
-				<constraints nullable="true" unique="false" />
-			</column>
-			<column name="updated_datetime" type="TIMESTAMP" defaultValue="null"
-				remarks="Date and time at which the record has been updated">
-				<constraints nullable="true" unique="false" />
-			</column>
-		</createTable>
-		
 		<createTable tableName="order_status"
 			remarks="A table to contain all information about status of order">
 			<column name="id" type="BIGINT(20)" remarks="primary key">
@@ -1494,62 +1545,6 @@
 			</column>
 		</createTable>
 		
-		<createTable tableName="order_track_details"
-			remarks="A table to contain all information about tracking details of orders">
-			<column name="id" type="BIGINT(20)" remarks="primary key">
-				<constraints nullable="false" unique="true" primaryKey="true" />
-			</column>
-			<column name="order_id" type="BIGINT(20)"
-				remarks="order id to identify order">
-				<constraints nullable="true" unique="false" />
-			</column>
-			<column name="order_completed_date" type="TIMESTAMP"
-				remarks="Date and time, when order has completed ">
-				<constraints nullable="true" unique="false" />
-			</column>
-			<column name="order_created_in_erp" type="BIT(1)"
-				remarks="Indicate 1=true (order created in erp), 0=false (not in erp)">
-				<constraints nullable="true" unique="false" />
-			</column>
-			<column name="order_created_in_parent_erp" type="BIT(1)"
-				remarks="Indicate 1=true (order created in parent erp), 0=false (not in erp)">
-				<constraints nullable="true" unique="false" />
-			</column>
-			<column name="order_process_log" type="LONGTEXT"
-				remarks="Order process logs">
-				<constraints nullable="true" unique="false" />
-			</column>
-			<column name="is_test_record" type="BIT(1)" defaultValue="0"
-				remarks="1 indicate test record true, and 0 indicate false, not test records">
-				<constraints nullable="false" unique="false" />
-			</column>
-			<column name="locked" type="BIT(1)" defaultValue="0"
-				remarks="1 indicate record locked true, and 0 indicate record not locked false">
-				<constraints nullable="false" unique="false" />
-			</column>
-			<column name="record_status" type="ENUM('a','d','i')" defaultValue="a"
-				remarks="Record status a=active, d=deleted, i=inactive">
-				<constraints nullable="false" unique="false" />
-			</column>
-			<column name="user_created" type="BIGINT(20)"
-				remarks="User who created this record">
-				<constraints nullable="true" unique="false" />
-			</column>
-			<column name="user_edited" type="BIGINT(20)"
-				remarks="User who modified this record">
-				<constraints nullable="true" unique="false" />
-			</column>
-			<column name="created_datetime" type="TIMESTAMP"
-				defaultValueComputed="CURRENT_TIMESTAMP"
-				remarks="Date and time at which the record has been created">
-				<constraints nullable="true" unique="false" />
-			</column>
-			<column name="updated_datetime" type="TIMESTAMP"
-				remarks="Date and time at which the record has been updated">
-				<constraints nullable="true" unique="false" />
-			</column>
-		</createTable>
-				
 		<createTable tableName="order_recurrence_schedule"
 			remarks="A table to contain all information about order recurrence schedule">
 			<column name="id" type="BIGINT(20)" remarks="primary key">
@@ -1623,12 +1618,12 @@
 			<column name="id" type="BIGINT(20)" remarks="primary key">
 				<constraints nullable="false" unique="true" primaryKey="true" />
 			</column>
-			<!--  FK reference table ORDER -->
+			<!--  FK reference table orders -->
 			<column name="order_id" type="BIGINT(20)"
 				remarks="order id to identify order">
 				<constraints nullable="false" unique="false" />
 			</column>
-			<!--  FK reference table ITEM_MASTER -->
+			<!--  FK reference table ITEM_MASTER for no relation has created -->
 			<column name="item_id" type="BIGINT(20)"
 				remarks="Item id to identify item">
 				<constraints nullable="true" unique="false" />
@@ -1816,70 +1811,6 @@
 			</column>
 		</createTable>	
 		
-		<createTable tableName="order_shipment_details"
-			remarks="A table to contain all information about shipment details of order">
-			<column name="id" type="BIGINT(20)" remarks="primary key">
-				<constraints nullable="false" unique="true" primaryKey="true" />
-			</column>
-			<column name="order_id" type="BIGINT(20)"
-				remarks="order id to identify order">
-				<constraints nullable="true" unique="false" />
-			</column>
-			<column name="shipped_date" type="DATETIME"
-				remarks="shipping date time of order">
-				<constraints nullable="true" unique="false" />
-			</column>
-			<column name="tracking_number" type="BIGINT(100)"
-				remarks="Tracking number to track the shipment">
-				<constraints nullable="true" unique="false" />
-			</column>
-			<column name="shipping_carrier" type="VARCHAR(45)"
-				remarks="Shipping carrier name or details">
-				<constraints nullable="true" unique="false" />
-			</column>
-			<column name="notes" type="TEXT"
-				remarks="Any notes if require for shipment">
-				<constraints nullable="true" unique="false" />
-			</column>
-			<column name="freight" type="VARCHAR(100)"
-				remarks="Freight">
-				<constraints nullable="true" unique="false" />
-			</column>
-			<column name="invoice_amount" type="DOUBLE"
-				remarks="Invoice amount">
-				<constraints nullable="true" unique="false" />
-			</column>
-			<column name="is_test_record" type="BIT(1)" defaultValue="0"
-				remarks="1 indicate test record true, and 0 indicate false, not test records">
-				<constraints nullable="false" unique="false" />
-			</column>
-			<column name="locked" type="BIT(1)" defaultValue="0"
-				remarks="1 indicate record locked true, and 0 indicate record not locked false">
-				<constraints nullable="false" unique="false" />
-			</column>
-			<column name="record_status" type="ENUM('a','d','i')" defaultValue="a"
-				remarks="Record status a=active, d=deleted, i=inactive">
-				<constraints nullable="false" unique="false" />
-			</column>
-			<column name="user_created" type="BIGINT(20)"
-				remarks="User who created this record">
-				<constraints nullable="true" unique="false" />
-			</column>
-			<column name="user_edited" type="BIGINT(20)"
-				remarks="User who modified this record">
-				<constraints nullable="true" unique="false" />
-			</column>
-			<column name="created_datetime" type="TIMESTAMP"
-				defaultValueComputed="CURRENT_TIMESTAMP"
-				remarks="Date and time at which the record has been created">
-				<constraints nullable="true" unique="false" />
-			</column>
-			<column name="updated_datetime" type="TIMESTAMP"
-				remarks="Date and time at which the record has been updated">
-				<constraints nullable="true" unique="false" />
-			</column>
-		</createTable>	
-		
 		<createTable tableName="order_items_shipped"
 			remarks="A table to contain all information about shipped order's items">
 			<column name="id" type="BIGINT(20)" remarks="primary key">
@@ -1977,9 +1908,10 @@
 			<column name="id" type="BIGINT(20)" remarks="primary key">
 				<constraints nullable="false" unique="true" primaryKey="true" />
 			</column>
+			<!-- FK reference table orders -->
 			<column name="order_id" type="BIGINT(20)"
 				remarks="order id to identify order">
-				<constraints nullable="true" unique="false" />
+				<constraints nullable="false" unique="false" />
 			</column>
 			<column name="discount_amount" type="DOUBLE" defaultValue="null"
 				remarks="Discount amount from coupon data">
@@ -2097,6 +2029,7 @@
 			<column name="id" type="BIGINT(20)" remarks="primary key">
 				<constraints nullable="false" unique="true" primaryKey="true" />
 			</column>
+			<!-- FK reference table order_pools -->
 			<column name="order_pool_id" type="BIGINT(20)"
 				remarks="Order pool id">
 				<constraints nullable="true" unique="false" />
@@ -2227,6 +2160,7 @@
 			<column name="id" type="BIGINT(20)" remarks="primary key">
 				<constraints nullable="false" unique="true" primaryKey="true" />
 			</column>
+			<!-- FK reference table comm_feature_options -->
 			<column name="comm_feature_option_id" type="BIGINT(20)"
 				remarks="Common feature option id">
 				<constraints nullable="true" unique="false" />
@@ -2294,7 +2228,7 @@
 				<constraints nullable="false" unique="true" primaryKey="true" />
 			</column>
 			<!-- FK reference table country -->
-			<column name="country" type="VARCHAR(2)"
+			<column name="country" type="VARCHAR(60)"
 				remarks="Fetches the country from country table">
 				<constraints nullable="false" unique="false" />
 			</column>
@@ -2599,11 +2533,6 @@
 				remarks="Customer id">
 				<constraints nullable="false" unique="false" />
 			</column>
-			<!--  FK reference table message -->
-			<!-- <column name="message_id" type="BIGINT(20)"
-				remarks="Message id">
-				<constraints nullable="false" unique="false" />
-			</column> -->
 			<column name="role_id" type="BIGINT(20)"
 				remarks="The message could be based on a role">
 				<constraints nullable="true" unique="false" />
@@ -2770,12 +2699,12 @@
 		
 		<createTable tableName="secure_portal"
 			remarks="A table to contains all the information about secure portal">
-			<column name="secure_portal_id" type="BIGINT(20)" remarks="primary key">
+			<column name="id" type="BIGINT(20)" remarks="primary key">
 				<constraints nullable="false" unique="true" primaryKey="true" />
 			</column>
 			<column name="secure_portal_name" type="VARCHAR(60)"
 				remarks="Secure portal name">
-				<constraints nullable="false" unique="true" uniqueConstraintName="secure_portal__name_uk_1" />
+				<constraints nullable="false" unique="true" uniqueConstraintName="secure_portal_secure_portal_name_uk_1" />
 			</column>
 			<column name="display_name" type="VARCHAR(50)"
 				remarks="Display name">
@@ -2818,56 +2747,6 @@
 				remarks="Date and time at which the record has been updated">
 				<constraints nullable="true" unique="false" />
 			</column>			
-		</createTable>	
-			
-		<createTable tableName="customer_secure_portal"
-			remarks="A table to contains all the information about customer secure portal">
-			<column name="id" type="BIGINT(20)" remarks="primary key">
-				<constraints nullable="false" unique="true" primaryKey="true" />
-			</column>
-			<!-- FK reference table customer -->
-			<column name="customer_id" type="BIGINT(20)"
-				remarks="customer id">
-				<constraints nullable="false" unique="false" />
-			</column>
-			<!-- FK reference table website -->
-			<column name="site_id" type="BIGINT(20)"
-				remarks="Site id">
-				<constraints nullable="false" unique="false" />
-			</column>
-			<column name="secure_portal_id" type="BIGINT(20)"
-				remarks="Secure portal id">
-				<constraints nullable="true" unique="false" />
-			</column>
-			<column name="is_test_record" type="BIT(1)" defaultValue="0"
-				remarks="1 indicate test record true, and 0 indicate false, not test records">
-				<constraints nullable="false" unique="false" />
-			</column>
-			<column name="locked" type="BIT(1)" defaultValue="0"
-				remarks="1 indicate record locked true, and 0 indicate record not locked false">
-				<constraints nullable="false" unique="false" />
-			</column>
-			<column name="record_status" type="ENUM('a','d','i')" defaultValue="a"
-				remarks="Record status a=active, d=deleted, i=inactive">
-				<constraints nullable="false" unique="false" />
-			</column>
-			<column name="user_created" type="BIGINT(20)"
-				remarks="User who created this record">
-				<constraints nullable="true" unique="false" />
-			</column>
-			<column name="user_edited" type="BIGINT(20)"
-				remarks="User who modified this record">
-				<constraints nullable="true" unique="false" />
-			</column>
-			<column name="created_datetime" type="TIMESTAMP"
-				defaultValueComputed="CURRENT_TIMESTAMP"
-				remarks="Date and time at which the record has been created">
-				<constraints nullable="true" unique="false" />
-			</column>
-			<column name="updated_datetime" type="TIMESTAMP"
-				remarks="Date and time at which the record has been updated">
-				<constraints nullable="true" unique="false" />
-			</column>
 		</createTable>	
 			
 		<createTable tableName="customer_part_number"
@@ -2942,10 +2821,6 @@
 				remarks="Site id">
 				<constraints nullable="true" unique="false" />
 			</column>
-			<column name="is_test_record" type="bit"
-				remarks="">
-				<constraints nullable="false" unique="false" />
-			</column>
 			<column name="is_test_record" type="BIT(1)" defaultValue="0"
 				remarks="1 indicate test record true, and 0 indicate false, not test records">
 				<constraints nullable="false" unique="false" />
@@ -2984,7 +2859,7 @@
 			</column>
 			<column name="name" type="VARCHAR(100)"
 				remarks="Name">
-				<constraints nullable="false" unique="true" />
+				<constraints nullable="false" unique="true" uniqueConstraintName="customer_category_name_uk_1"/>
 			</column>
 			<column name="code" type="VARCHAR(255)"
 				remarks="Code">
@@ -3194,7 +3069,7 @@
 			<column name="id" type="BIGINT(20)" remarks="primary key">
 				<constraints nullable="false" unique="true" primaryKey="true" />
 			</column>
-			<!-- FK reference table customer_websites -->
+			<!-- FK reference table product_group_list -->
 			<column name="product_group_list_id" type="BIGINT(20)"
 				remarks="Product group list">
 				<constraints nullable="false" unique="false" />
@@ -3294,11 +3169,16 @@
 				remarks="Customer id">
 				<constraints nullable="false" unique="false" />
 			</column>
-			<!-- FK reference table website -->
+			<!-- FK reference table websites -->
 			<column name="site_id" type="BIGINT(20)"
 				remarks="Site id">
 				<constraints nullable="false" unique="false" />
-			</column>			
+			</column>	
+			<!-- FK reference table users -->
+			<column name="user_edited" type="BIGINT(20)"
+				remarks="User who modified this record">
+				<constraints nullable="false" unique="false" />
+			</column>		
 			<column name="user_name" type="VARCHAR(86)"
 				remarks="Stores the username of the user">
 				<constraints nullable="false" unique="false" />
@@ -3399,10 +3279,6 @@
 				remarks="User who created this record">
 				<constraints nullable="true" unique="false" />
 			</column>
-			<column name="user_edited" type="BIGINT(20)"
-				remarks="User who modified this record">
-				<constraints nullable="true" unique="false" />
-			</column>
 			<column name="created_datetime" type="TIMESTAMP"
 				defaultValueComputed="CURRENT_TIMESTAMP"
 				remarks="Date and time at which the record has been created">
@@ -3413,14 +3289,17 @@
 				<constraints nullable="true" unique="false" />
 			</column>
 		</createTable>	
+<!-- user end here -->
 
+<!-- client_user_customer_link start here -->
 		<createTable tableName="client_user_customer_link"
 			remarks="A table to contain all information about client user customer link">
-			<!-- FK reference table user -->
+			<!-- FK reference table users -->
 			<column name="user_id" type="BIGINT(20)" 
 				remarks="primary key and foreign key. Users from CX1 Admin ">
 				<constraints nullable="false" unique="true" primaryKey="true" />
 			</column>
+			<!-- FK reference table customer -->
 			<column name="customer_id" type="BIGINT(20)"
 				remarks="Customer id">
 				<constraints nullable="true" unique="false" />
@@ -3459,13 +3338,15 @@
 				<constraints nullable="true" unique="false" />
 			</column>
 		</createTable>
+<!-- client_user_customer_link end here -->
 
+<!-- client_user_ecommerce_role start here -->	
 		<createTable tableName="client_user_ecommerce_role"
 			remarks="A table to contain all information about client user ecommerce role">
 			<!-- FK reference table user -->
 			<column name="user_id" type="BIGINT(20)" 
 				remarks="primary key and foreign key. Users from CX1 Admin ">
-				<constraints nullable="false" unique="true" primaryKey="true" />
+				<constraints nullable="false" unique="false" primaryKey="true" />
 			</column>
 			<column name="role_id" type="BIGINT(20)"
 				remarks="Role id">
@@ -3501,19 +3382,21 @@
 				<constraints nullable="true" unique="false" />
 			</column>
 		</createTable>
+<!-- client_user_ecommerce_role end here -->	
 
+<!-- user_verification start here -->
 		<createTable tableName="user_verification"
 				remarks="A table to contain all information about user verification">
 			<column name="id" type="BIGINT(20)" remarks="primary key">
 				<constraints nullable="false" unique="true" primaryKey="true" />
 			</column>
-			<!-- FK reference table customer -->
+			<!-- FK reference table users -->
 			<column name="user_id" type="BIGINT(20)"
-				remarks="Customer id">
+				remarks="User id">
 				<constraints nullable="false" unique="true" />
 			</column>
 			<column name="verification_code" type="VARCHAR(45)"
-				remarks="Stores the verification code">
+				remarks="This will be encrypted value">
 				<constraints nullable="false" unique="false" />
 			</column>
 			<column name="verification_datetime" type="DATETIME"
@@ -3525,11 +3408,11 @@
 				<constraints nullable="true" unique="false" />
 			</column>
 			<column name="verification_type" type="VARCHAR(45)"
-				remarks="Verification types">
+				remarks="Email or SMS to phone verification">
 					<constraints nullable="true" unique="false" />
 			</column>
 			<column name="encription_type" type="VARCHAR(45)"
-				remarks="Encription type">
+				remarks="To encrypt the code in an encrypted form">
 				<constraints nullable="true" unique="false" />
 			</column>
 			<column name="is_test_record" type="BIT(1)" defaultValue="0"
@@ -3562,7 +3445,7 @@
 				<constraints nullable="true" unique="false" />
 			</column>
 		</createTable>	
-<!-- user end here -->
+<!-- user_verification end here -->
 			
 <!-- cart start here-->
 		<createTable tableName="cart"
@@ -3575,7 +3458,7 @@
 				remarks="Customer id">
 				<constraints nullable="true" unique="false" />
 			</column>
-			<!-- FK reference table customer category-->
+			<!-- FK reference table customer_category-->
 			<column name="customer_category_id" type="BIGINT(20)"
 				remarks="Customer category id">
 				<constraints nullable="true" unique="false" />
@@ -3849,181 +3732,6 @@
 			<column name="additional_properties" type="JSON"
 				remarks="Additional properties">
 				<constraints nullable="false" unique="false" />
-			</column>
-			<column name="is_test_record" type="BIT(1)" defaultValue="0"
-				remarks="1 indicate test record true, and 0 indicate false, not test records">
-				<constraints nullable="false" unique="false" />
-			</column>
-			<column name="locked" type="BIT(1)" defaultValue="0"
-				remarks="1 indicate record locked true, and 0 indicate record not locked false">
-				<constraints nullable="false" unique="false" />
-			</column>
-			<column name="record_status" type="ENUM('a','d','i')" defaultValue="a"
-				remarks="Record status a=active, d=deleted, i=inactive">
-				<constraints nullable="false" unique="false" />
-			</column>
-			<column name="user_created" type="BIGINT(20)"
-				remarks="User who created this record">
-				<constraints nullable="true" unique="false" />
-			</column>
-			<column name="user_edited" type="BIGINT(20)"
-				remarks="User who modified this record">
-				<constraints nullable="true" unique="false" />
-			</column>
-			<column name="created_datetime" type="TIMESTAMP"
-				defaultValueComputed="CURRENT_TIMESTAMP"
-				remarks="Date and time at which the record has been created">
-				<constraints nullable="true" unique="false" />
-			</column>
-			<column name="updated_datetime" type="TIMESTAMP"
-				remarks="Date and time at which the record has been updated">
-				<constraints nullable="true" unique="false" />
-			</column>
-		</createTable>	
-		
-		<createTable tableName="saved_cart"
-			remarks="A table to contain all information about saved cart">
-			<column name="id" type="BIGINT(20)" remarks="primary key">
-				<constraints nullable="false" unique="true" primaryKey="true" />
-			</column>
-			<!-- FK reference table CIMM_USERS -->
-			<column name="user_id" type="BIGINT(20)"
-				remarks="User id">
-				<constraints nullable="false" unique="false" />
-			</column>
-			<!-- FK reference table website -->
-			<column name="site_id" type="BIGINT(20)"
-				remarks="User id">
-				<constraints nullable="false" unique="false" />
-			</column>
-			<column name="saved_list_name" type="VARCHAR(200)"
-				remarks="Saved list name">
-				<constraints nullable="false" unique="false" />
-			</column>
-			<column name="type" type="VARCHAR(100)"
-				remarks="Wishlist, saved cart, product group, approved cart">
-				<constraints nullable="false" unique="false" />
-			</column>			
-			<column name="assigned_ship_to" type="BIGINT(20)"
-				remarks="Assigned ship to">
-				<constraints nullable="true" unique="false" />
-			</column>
-			<column name="status" type="VARCHAR(2)"
-				remarks="Status">
-				<constraints nullable="true" unique="false" />
-			</column>
-			<column name="sent_by_appr_user_id" type="BIGINT(20)"
-				remarks="Sent by APPR id">
-				<constraints nullable="true" unique="false" />
-			</column>
-			<column name="inherit" type="BIT(1)"
-				remarks="Indicate 1=true, 0=false">
-				<constraints nullable="true" unique="false" />
-			</column>
-			<column name="public_share" type="BIT(1)"
-				remarks="Indicate 1=true, 0=false">
-				<constraints nullable="true" unique="false" />
-			</column>	
-			<column name="customer_id" type="BIGINT(20)"
-				remarks="Customer id">
-				<constraints nullable="true" unique="false" />
-			</column>		
-			<column name="is_public" type="BIT(1)"
-				remarks="Indicate 1=true, 0=false">
-				<constraints nullable="true" unique="false" />
-			</column>
-			<column name="address" type="VARCHAR(60)"
-				remarks="Address">
-				<constraints nullable="true" unique="false" />
-			</column>
-			<column name="entity_id" type="VARCHAR(200)"
-				remarks="Entity id">
-				<constraints nullable="true" unique="false" />
-			</column>
-			<column name="assign_to_all_customer" type="BIT(1)"
-				remarks="Indicate 1=true, 0=false">
-				<constraints nullable="true" unique="false" />
-			</column>
-			<column name="is_test_record" type="BIT(1)" defaultValue="0"
-				remarks="1 indicate test record true, and 0 indicate false, not test records">
-				<constraints nullable="false" unique="false" />
-			</column>
-			<column name="locked" type="BIT(1)" defaultValue="0"
-				remarks="1 indicate record locked true, and 0 indicate record not locked false">
-				<constraints nullable="false" unique="false" />
-			</column>
-			<column name="record_status" type="ENUM('a','d','i')" defaultValue="a"
-				remarks="Record status a=active, d=deleted, i=inactive">
-				<constraints nullable="false" unique="false" />
-			</column>
-			<column name="user_created" type="BIGINT(20)"
-				remarks="User who created this record">
-				<constraints nullable="true" unique="false" />
-			</column>
-			<column name="user_edited" type="BIGINT(20)"
-				remarks="User who modified this record">
-				<constraints nullable="true" unique="false" />
-			</column>
-			<column name="created_datetime" type="TIMESTAMP"
-				defaultValueComputed="CURRENT_TIMESTAMP"
-				remarks="Date and time at which the record has been created">
-				<constraints nullable="true" unique="false" />
-			</column>
-			<column name="updated_datetime" type="TIMESTAMP"
-				remarks="Date and time at which the record has been updated">
-				<constraints nullable="true" unique="false" />
-			</column>
-		</createTable>
-			
-		<createTable tableName="saved_cart_items"
-			remarks="A table to contain all information about saved cart">
-			<column name="id" type="BIGINT(20)" remarks="primary key">
-				<constraints nullable="false" unique="true" primaryKey="true" />
-			</column>
-			<!-- FK reference table saved_cart -->
-			<column name="saved_cart_id" type="BIGINT(20)"
-				remarks="User id">
-				<constraints nullable="false" unique="false" />
-			</column>
-			<column name="item_id" type="BIGINT(20)"
-				remarks="Item id">
-				<constraints nullable="true" unique="false" />
-			</column>
-			<column name="qty" type="BIGINT(20)"
-				remarks="Total item's quantities">
-				<constraints nullable="true" unique="false" />
-			</column>
-			<column name="item_level_require_by_date" type="VARCHAR(100)"
-				remarks="Item level require by date">
-				<constraints nullable="true" unique="false" />
-			</column>
-			<column name="item_level_shipvia" type="VARCHAR(100)"
-				remarks="Item level ship via">
-				<constraints nullable="true" unique="false" />
-			</column>
-			<column name="item_level_shipvia_desc" type="VARCHAR(200)"
-				remarks="Item level ship via description">
-				<constraints nullable="true" unique="false" />
-			</column>
-			<column name="line_item_comment" type="VARCHAR(200)"
-				remarks="Line item comment">
-				<constraints nullable="true" unique="false" />
-			</column>
-			<column name="catalog_id" type="VARCHAR(100)"
-				remarks="Catalog id">
-				<constraints nullable="true" unique="false" />
-			</column>
-			<column name="price" type="DOUBLE"
-				 remarks="Item price">
-				<constraints nullable="true" unique="false" />
-			</column>
-			<column name="uom" type="VARCHAR(100)"
-				remarks="UOM">
-				<constraints nullable="true" unique="false" />
-			</column>
-			<column name="get_price_from" type="VARCHAR(100)"
-				remarks="Source from where item's price coming">
-				<constraints nullable="true" unique="false" />
 			</column>
 			<column name="is_test_record" type="BIT(1)" defaultValue="0"
 				remarks="1 indicate test record true, and 0 indicate false, not test records">
@@ -4494,6 +4202,7 @@
 			<column name="id" type="BIGINT(20)" remarks="primary key">
 				<constraints nullable="false" unique="true" primaryKey="true" />
 			</column>
+			<!-- FK reference table profiles -->
 			<column name="profile_id" type="BIGINT(20)"
 				remarks="Profile id">
 				<constraints nullable="true" unique="false" />
@@ -4548,14 +4257,19 @@
 			<column name="id" type="BIGINT(20)" remarks="primary key">
 				<constraints nullable="false" unique="true" primaryKey="true" />
 			</column>
-			<!-- FK reference table website -->
+			<!-- FK reference table websites -->
 			<column name="site_id" type="BIGINT(20)"
 				remarks="Store site id">
 				<constraints nullable="false" unique="false" />
 			</column>
+			<!-- FK reference table users -->
+			<column name="user_edited" type="BIGINT(20)"
+				remarks="User who modified this record">
+				<constraints nullable="true" unique="false" />
+			</column>
 			<column name="subset_name" type="VARCHAR(50)"
 				remarks="Stroes the name of the subset">
-				<constraints nullable="false" unique="true" />
+				<constraints nullable="false" unique="true" uniqueConstraintName="subset_subset_name_uk_1" />
 			</column>
 			<column name="subset_desc" type="VARCHAR(500)"
 				remarks="Stores the description">
@@ -4593,10 +4307,6 @@
 				remarks="User who created this record">
 				<constraints nullable="true" unique="false" />
 			</column>
-			<column name="user_edited" type="BIGINT(20)"
-				remarks="User who modified this record">
-				<constraints nullable="true" unique="false" />
-			</column>
 			<column name="created_datetime" type="TIMESTAMP"
 				defaultValueComputed="CURRENT_TIMESTAMP"
 				remarks="Date and time at which the record has been created">
@@ -4621,7 +4331,7 @@
 				remarks="Value could be ITEM, BRAND, CATEGORY, MANUFACTURER, CUSTOM_FIELD, ATTRIBUTE">
 				<constraints nullable="true" unique="false" />
 			</column>
-			<column name="entity_type" type="VARCHAR(60)"
+			<column name="entity_identifier" type="VARCHAR(60)"
 				remarks="Value will be brand name, manufacturer name, category code, custom field name or attribute name">
 				<constraints nullable="true" unique="false" />
 			</column>
@@ -4730,7 +4440,7 @@
 <!-- country start here-->
 		<createTable tableName="country"
 			remarks="A table to contain all information about Country">
-			<column name="country_code_id" type="VARCHAR(60)" remarks="primary key">
+			<column name="id" type="VARCHAR(60)" remarks="primary key">
 				<constraints nullable="false" unique="true" primaryKey="true" />
 			</column>
 			<!-- FK reference table users -->
@@ -4777,7 +4487,7 @@
 <!-- state_code start here-->
 		<createTable tableName="state_code"
 			remarks="A table to contain all information about state code">
-			<column name="state_code_id" type="VARCHAR(45)" remarks="primary key">
+			<column name="id" type="VARCHAR(45)" remarks="primary key">
 				<constraints nullable="false" unique="true" primaryKey="true" />
 			</column>
 			<!-- FK reference table users -->
@@ -4785,13 +4495,14 @@
 				remarks="Stores the USER_ID of the user who has added or edited the entry">
 				<constraints nullable="false" unique="false" />
 			</column>
-			<column name="state_code" type="VARCHAR(3)"
-				remarks="Store the state code">
-				<constraints nullable="false" unique="true" />
-			</column>
+			<!-- FK reference table country -->
 			<column name="country_code" type="VARCHAR(3)"
 				remarks="Store the country code">
-				<constraints nullable="false" unique="true" />
+				<constraints nullable="false" unique="false" />
+			</column>
+			<column name="state_code" type="VARCHAR(3)"
+				remarks="Store the state code">
+				<constraints nullable="false" unique="false" />
 			</column>
 			<column name="state_name" type="VARCHAR(100)"
 				remarks="Store the state name">
@@ -4872,7 +4583,7 @@
 <!-- product_information_source end here-->		
 
 <!-- payment_method start here-->
-		<createTable tableName="payment_method"
+		<createTable tableName="payment_methods"
 			remarks="A table to contain all information about payment methods">
 			<column name="id" type="BIGINT(20)" remarks="primary key">
 				<constraints nullable="false" unique="true" primaryKey="true" />
@@ -5014,9 +4725,9 @@
 <!-- tax_category end here-->	
 
 <!-- static_page start here-->
-		<createTable tableName="static_page"
+		<createTable tableName="static_pages"
 			remarks="A table to contain all information static page">
-			<column name="static_page_id" type="BIGINT(20)" remarks="primary key">
+			<column name="id" type="BIGINT(20)" remarks="primary key">
 				<constraints nullable="false" unique="true" primaryKey="true" />
 			</column>
 			<!-- FK reference table users -->
@@ -5024,7 +4735,7 @@
 				remarks="Stores the USER_ID of the user who has added or edited the entry">
 				<constraints nullable="false" unique="false" />
 			</column>
-			<!-- FK reference table website -->
+			<!-- FK reference table websites -->
 			<column name="site_id" type="BIGINT(20)"
 				remarks="Stores the site_id">
 				<constraints nullable="false" unique="false" />
@@ -5393,10 +5104,12 @@
 			<column name="id" type="BIGINT(20)" remarks="primary key">
 				<constraints nullable="false" unique="true" primaryKey="true" />
 			</column>
+			<!-- FK reference table customer -->
 			<column name="customer_id" type="BIGINT(20)"
 				remarks="Customer id">
 				<constraints nullable="false" unique="false" />
 			</column>
+			<!-- FK reference table profiles -->
 			<column name="profile_id" type="BIGINT(20)"
 				remarks="Profile id">
 				<constraints nullable="false" unique="false" />
@@ -5479,6 +5192,366 @@
 		</createTable>			
 <!-- customer_price_class end here-->
 
+<!-- order_notification_confirmation start here-->
+		<createTable tableName="order_notification_confirmation"
+			remarks="A table to contain all information about notification of order confirmation">
+			<column name="id" type="BIGINT(20)" remarks="primary key">
+				<constraints nullable="false" unique="true" primaryKey="true" />
+			</column>
+			<!-- FK reference table orders -->
+			<column name="order_id" type="BIGINT(20)"
+				remarks="order id to identify order">
+				<constraints nullable="false" unique="false" />
+			</column>
+			<column name="email_sent_to_user" type="BIT(1)"
+				remarks="Indicate 1=true (email sent to user for order confirmation), 0=false (email not sent)">
+				<constraints nullable="true" unique="false" />
+			</column>
+			<column name="email_sent_to_customer" type="BIT(1)"
+				remarks="Indicate 1=true (email sent to customer for order confirmation), 0=false (email not sent)">
+				<constraints nullable="true" unique="false" />
+			</column>
+			<column name="email_sent_to_user_date" type="TIMESTAMP"
+				remarks="Date and time, when email sent to user">
+				<constraints nullable="true" unique="false" />
+			</column>
+			<column name="email_sent_to_customer_date" type="TIMESTAMP"
+				remarks="Date and time, when email sent to customer">
+				<constraints nullable="true" unique="false" />
+			</column>
+			<column name="is_test_record" type="BIT(1)" defaultValue="0"
+				remarks="1 indicate test record true, and 0 indicate false, not test records">
+				<constraints nullable="false" unique="false" />
+			</column>
+			<column name="locked" type="BIT(1)" defaultValue="0"
+				remarks="1 indicate record locked true, and 0 indicate record not locked false">
+				<constraints nullable="false" unique="false" />
+			</column>
+			<column name="record_status" type="ENUM('a','d','i')" defaultValue="a"
+				remarks="Record status a=active, d=deleted, i=inactive">
+				<constraints nullable="false" unique="false" />
+			</column>
+			<column name="user_created" type="BIGINT(20)"
+				remarks="User who created this record">
+				<constraints nullable="true" unique="false" />
+			</column>
+			<column name="user_edited" type="BIGINT(20)"
+				remarks="User who modified this record">
+				<constraints nullable="true" unique="false" />
+			</column>
+			<column name="created_datetime" type="TIMESTAMP"
+				defaultValueComputed="CURRENT_TIMESTAMP"
+				remarks="Date and time at which the record has been created">
+				<constraints nullable="true" unique="false" />
+			</column>
+			<column name="updated_datetime" type="TIMESTAMP" defaultValue="null"
+				remarks="Date and time at which the record has been updated">
+				<constraints nullable="true" unique="false" />
+			</column>
+		</createTable>
+<!-- order_notification_confirmation end here-->		
+
+<!-- order_track_details start here-->
+		<createTable tableName="order_track_details"
+			remarks="A table to contain all information about tracking details of orders">
+			<column name="id" type="BIGINT(20)" remarks="primary key">
+				<constraints nullable="false" unique="true" primaryKey="true" />
+			</column>
+			<!-- FK reference table order -->
+			<column name="order_id" type="BIGINT(20)"
+				remarks="order id to identify order">
+				<constraints nullable="false" unique="false" />
+			</column>
+			<column name="order_completed_date" type="TIMESTAMP"
+				remarks="Date and time, when order has completed ">
+				<constraints nullable="true" unique="false" />
+			</column>
+			<column name="order_created_in_erp" type="BIT(1)"
+				remarks="Indicate 1=true (order created in erp), 0=false (not in erp)">
+				<constraints nullable="true" unique="false" />
+			</column>
+			<column name="order_created_in_parent_erp" type="BIT(1)"
+				remarks="Indicate 1=true (order created in parent erp), 0=false (not in erp)">
+				<constraints nullable="true" unique="false" />
+			</column>
+			<column name="order_process_log" type="LONGTEXT"
+				remarks="Order process logs">
+				<constraints nullable="true" unique="false" />
+			</column>
+			<column name="is_test_record" type="BIT(1)" defaultValue="0"
+				remarks="1 indicate test record true, and 0 indicate false, not test records">
+				<constraints nullable="false" unique="false" />
+			</column>
+			<column name="locked" type="BIT(1)" defaultValue="0"
+				remarks="1 indicate record locked true, and 0 indicate record not locked false">
+				<constraints nullable="false" unique="false" />
+			</column>
+			<column name="record_status" type="ENUM('a','d','i')" defaultValue="a"
+				remarks="Record status a=active, d=deleted, i=inactive">
+				<constraints nullable="false" unique="false" />
+			</column>
+			<column name="user_created" type="BIGINT(20)"
+				remarks="User who created this record">
+				<constraints nullable="true" unique="false" />
+			</column>
+			<column name="user_edited" type="BIGINT(20)"
+				remarks="User who modified this record">
+				<constraints nullable="true" unique="false" />
+			</column>
+			<column name="created_datetime" type="TIMESTAMP"
+				defaultValueComputed="CURRENT_TIMESTAMP"
+				remarks="Date and time at which the record has been created">
+				<constraints nullable="true" unique="false" />
+			</column>
+			<column name="updated_datetime" type="TIMESTAMP"
+				remarks="Date and time at which the record has been updated">
+				<constraints nullable="true" unique="false" />
+			</column>
+		</createTable>	
+<!-- order_track_details end here-->
+
+<!-- order_shipment_details start here-->
+		<createTable tableName="order_shipment_details"
+			remarks="A table to contain all information about shipment details of order">
+			<column name="id" type="BIGINT(20)" remarks="primary key">
+				<constraints nullable="false" unique="true" primaryKey="true" />
+			</column>
+			<!-- FK reference table order -->
+			<column name="order_id" type="BIGINT(20)"
+				remarks="order id to identify order">
+				<constraints nullable="false" unique="false" />
+			</column>
+			<column name="shipped_date" type="DATETIME"
+				remarks="shipping date time of order">
+				<constraints nullable="true" unique="false" />
+			</column>
+			<column name="tracking_number" type="BIGINT(100)"
+				remarks="Tracking number to track the shipment">
+				<constraints nullable="true" unique="false" />
+			</column>
+			<column name="shipping_carrier" type="VARCHAR(45)"
+				remarks="Shipping carrier name or details">
+				<constraints nullable="true" unique="false" />
+			</column>
+			<column name="notes" type="TEXT"
+				remarks="Any notes if require for shipment">
+				<constraints nullable="true" unique="false" />
+			</column>
+			<column name="freight" type="VARCHAR(100)"
+				remarks="Freight">
+				<constraints nullable="true" unique="false" />
+			</column>
+			<column name="invoice_amount" type="DOUBLE"
+				remarks="Invoice amount">
+				<constraints nullable="true" unique="false" />
+			</column>
+			<column name="is_test_record" type="BIT(1)" defaultValue="0"
+				remarks="1 indicate test record true, and 0 indicate false, not test records">
+				<constraints nullable="false" unique="false" />
+			</column>
+			<column name="locked" type="BIT(1)" defaultValue="0"
+				remarks="1 indicate record locked true, and 0 indicate record not locked false">
+				<constraints nullable="false" unique="false" />
+			</column>
+			<column name="record_status" type="ENUM('a','d','i')" defaultValue="a"
+				remarks="Record status a=active, d=deleted, i=inactive">
+				<constraints nullable="false" unique="false" />
+			</column>
+			<column name="user_created" type="BIGINT(20)"
+				remarks="User who created this record">
+				<constraints nullable="true" unique="false" />
+			</column>
+			<column name="user_edited" type="BIGINT(20)"
+				remarks="User who modified this record">
+				<constraints nullable="true" unique="false" />
+			</column>
+			<column name="created_datetime" type="TIMESTAMP"
+				defaultValueComputed="CURRENT_TIMESTAMP"
+				remarks="Date and time at which the record has been created">
+				<constraints nullable="true" unique="false" />
+			</column>
+			<column name="updated_datetime" type="TIMESTAMP"
+				remarks="Date and time at which the record has been updated">
+				<constraints nullable="true" unique="false" />
+			</column>
+		</createTable>	
+<!-- order_shipment_details end here-->
+
+<!-- saved_cart start here-->
+		<createTable tableName="saved_cart"
+			remarks="A table to contain all information about saved cart">
+			<column name="id" type="BIGINT(20)" remarks="primary key">
+				<constraints nullable="false" unique="true" primaryKey="true" />
+			</column>
+			<!-- FK reference table user -->
+			<column name="user_id" type="BIGINT(20)"
+				remarks="User id">
+				<constraints nullable="false" unique="false" />
+			</column>
+			<!-- FK reference table websites -->
+			<column name="site_id" type="BIGINT(20)"
+				remarks="User id">
+				<constraints nullable="false" unique="false" />
+			</column>
+			<column name="saved_list_name" type="VARCHAR(200)"
+				remarks="Saved list name">
+				<constraints nullable="false" unique="false" />
+			</column>
+			<column name="type" type="VARCHAR(100)"
+				remarks="Wishlist, saved cart, product group, approved cart">
+				<constraints nullable="false" unique="false" />
+			</column>			
+			<column name="assigned_ship_to" type="BIGINT(20)"
+				remarks="Assigned ship to">
+				<constraints nullable="true" unique="false" />
+			</column>
+			<column name="sent_by_appr_user_id" type="BIGINT(20)"
+				remarks="Sent by APPR id">
+				<constraints nullable="true" unique="false" />
+			</column>
+			<column name="inherit" type="BIT(1)"
+				remarks="Indicate 1=true, 0=false">
+				<constraints nullable="true" unique="false" />
+			</column>
+			<column name="public_share" type="BIT(1)"
+				remarks="Indicate 1=true, 0=false">
+				<constraints nullable="true" unique="false" />
+			</column>	
+			<column name="customer_id" type="BIGINT(20)"
+				remarks="Customer id">
+				<constraints nullable="true" unique="false" />
+			</column>		
+			<column name="is_public" type="BIT(1)"
+				remarks="Indicate 1=true, 0=false">
+				<constraints nullable="true" unique="false" />
+			</column>
+			<column name="address" type="VARCHAR(60)"
+				remarks="Address">
+				<constraints nullable="true" unique="false" />
+			</column>
+			<column name="entity_id" type="VARCHAR(200)"
+				remarks="Entity id">
+				<constraints nullable="true" unique="false" />
+			</column>
+			<column name="assign_to_all_customer" type="BIT(1)"
+				remarks="Indicate 1=true, 0=false">
+				<constraints nullable="true" unique="false" />
+			</column>
+			<column name="is_test_record" type="BIT(1)" defaultValue="0"
+				remarks="1 indicate test record true, and 0 indicate false, not test records">
+				<constraints nullable="false" unique="false" />
+			</column>
+			<column name="locked" type="BIT(1)" defaultValue="0"
+				remarks="1 indicate record locked true, and 0 indicate record not locked false">
+				<constraints nullable="false" unique="false" />
+			</column>
+			<column name="record_status" type="ENUM('a','d','i')" defaultValue="a"
+				remarks="Record status a=active, d=deleted, i=inactive">
+				<constraints nullable="false" unique="false" />
+			</column>
+			<column name="user_created" type="BIGINT(20)"
+				remarks="User who created this record">
+				<constraints nullable="true" unique="false" />
+			</column>
+			<column name="user_edited" type="BIGINT(20)"
+				remarks="User who modified this record">
+				<constraints nullable="true" unique="false" />
+			</column>
+			<column name="created_datetime" type="TIMESTAMP"
+				defaultValueComputed="CURRENT_TIMESTAMP"
+				remarks="Date and time at which the record has been created">
+				<constraints nullable="true" unique="false" />
+			</column>
+			<column name="updated_datetime" type="TIMESTAMP"
+				remarks="Date and time at which the record has been updated">
+				<constraints nullable="true" unique="false" />
+			</column>
+		</createTable>
+<!-- saved_cart end here-->
+
+<!-- saved_cart_items start here-->
+		<createTable tableName="saved_cart_items"
+			remarks="A table to contain all information about saved cart">
+			<column name="id" type="BIGINT(20)" remarks="primary key">
+				<constraints nullable="false" unique="true" primaryKey="true" />
+			</column>
+			<!-- FK reference table saved_cart -->
+			<column name="saved_cart_id" type="BIGINT(20)"
+				remarks="User id">
+				<constraints nullable="false" unique="false" />
+			</column>
+			<column name="item_id" type="BIGINT(20)"
+				remarks="Item id">
+				<constraints nullable="true" unique="false" />
+			</column>
+			<column name="qty" type="BIGINT(20)"
+				remarks="Total item's quantities">
+				<constraints nullable="true" unique="false" />
+			</column>
+			<column name="item_level_require_by_date" type="VARCHAR(100)"
+				remarks="Item level require by date">
+				<constraints nullable="true" unique="false" />
+			</column>
+			<column name="item_level_shipvia" type="VARCHAR(100)"
+				remarks="Item level ship via">
+				<constraints nullable="true" unique="false" />
+			</column>
+			<column name="item_level_shipvia_desc" type="VARCHAR(200)"
+				remarks="Item level ship via description">
+				<constraints nullable="true" unique="false" />
+			</column>
+			<column name="line_item_comment" type="VARCHAR(200)"
+				remarks="Line item comment">
+				<constraints nullable="true" unique="false" />
+			</column>
+			<column name="catalog_id" type="VARCHAR(100)"
+				remarks="Catalog id">
+				<constraints nullable="true" unique="false" />
+			</column>
+			<column name="price" type="DOUBLE"
+				 remarks="Item price">
+				<constraints nullable="true" unique="false" />
+			</column>
+			<column name="uom" type="VARCHAR(100)"
+				remarks="UOM">
+				<constraints nullable="true" unique="false" />
+			</column>
+			<column name="get_price_from" type="VARCHAR(100)"
+				remarks="Source from where item's price coming">
+				<constraints nullable="true" unique="false" />
+			</column>
+			<column name="is_test_record" type="BIT(1)" defaultValue="0"
+				remarks="1 indicate test record true, and 0 indicate false, not test records">
+				<constraints nullable="false" unique="false" />
+			</column>
+			<column name="locked" type="BIT(1)" defaultValue="0"
+				remarks="1 indicate record locked true, and 0 indicate record not locked false">
+				<constraints nullable="false" unique="false" />
+			</column>
+			<column name="record_status" type="ENUM('a','d','i')" defaultValue="a"
+				remarks="Record status a=active, d=deleted, i=inactive">
+				<constraints nullable="false" unique="false" />
+			</column>
+			<column name="user_created" type="BIGINT(20)"
+				remarks="User who created this record">
+				<constraints nullable="true" unique="false" />
+			</column>
+			<column name="user_edited" type="BIGINT(20)"
+				remarks="User who modified this record">
+				<constraints nullable="true" unique="false" />
+			</column>
+			<column name="created_datetime" type="TIMESTAMP"
+				defaultValueComputed="CURRENT_TIMESTAMP"
+				remarks="Date and time at which the record has been created">
+				<constraints nullable="true" unique="false" />
+			</column>
+			<column name="updated_datetime" type="TIMESTAMP"
+				remarks="Date and time at which the record has been updated">
+				<constraints nullable="true" unique="false" />
+			</column>
+		</createTable>	
+<!-- saved_cart_items start here-->
+					
 		<modifySql dbms="mysql">
 			<append value="engine innodb character set utf8 collate utf8_general_ci" />
 		</modifySql>

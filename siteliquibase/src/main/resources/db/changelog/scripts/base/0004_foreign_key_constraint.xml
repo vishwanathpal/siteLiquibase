@@ -5,201 +5,293 @@
 
 	<changeSet id="scripts-base-0004" author="vishwanath">
 		
+		<!-- warehouse -->
 		<addForeignKeyConstraint baseColumnNames="website_id"
-			baseTableName="website_warehouses" constraintName="website_warehouses_fk_1"
+			baseTableName="website_warehouses" constraintName="websites_website_warehouses_fk_1"
 			deferrable="false" initiallyDeferred="false" onDelete="SET NULL"
 			onUpdate="SET NULL" referencedColumnNames="id" referencedTableName="websites" />
 		<addForeignKeyConstraint baseColumnNames="warehouse_id"
-			baseTableName="website_warehouses" constraintName="website_warehouses_fk_2"
+			baseTableName="website_warehouses" constraintName="warehouse_website_warehouses_fk_1"
 			deferrable="false" initiallyDeferred="false" onDelete="SET NULL"
 			onUpdate="SET NULL" referencedColumnNames="id" referencedTableName="warehouse" />
 			
 		<addForeignKeyConstraint baseColumnNames="warehouse_id"
-			baseTableName="warehouse_group_mapping" constraintName="warehouse_group_mapping_fk_1"
+			baseTableName="warehouse_group_mapping" constraintName="warehouse_warehouse_group_mapping_fk_1"
 			deferrable="false" initiallyDeferred="false" onDelete="SET NULL"
 			onUpdate="SET NULL" referencedColumnNames="id" referencedTableName="warehouse" />
 		<addForeignKeyConstraint baseColumnNames="warehouse_group_id"
-			baseTableName="warehouse_group_mapping" constraintName="warehouse_group_mapping_fk_2"
+			baseTableName="warehouse_group_mapping" constraintName="warehouse_group_warehouse_group_mapping_fk_2"
 			deferrable="false" initiallyDeferred="false" onDelete="SET NULL"
 			onUpdate="SET NULL" referencedColumnNames="id" referencedTableName="warehouse_group" />		
 			
 		<addForeignKeyConstraint baseColumnNames="warehouse_id"
-			baseTableName="warehouse_items" constraintName="warehouse_items_fk_1"
+			baseTableName="warehouse_items" constraintName="warehouse_warehouse_items_fk_1"
 			deferrable="false" initiallyDeferred="false" onDelete="SET NULL"
 			onUpdate="SET NULL" referencedColumnNames="id" referencedTableName="warehouse" />	
 			
 		<addForeignKeyConstraint baseColumnNames="warehouse_id"
-			baseTableName="warehouse_catalogs" constraintName="warehouse_catalogs_fk_1"
+			baseTableName="warehouse_freight_rules" constraintName="warehouse_warehouse_freight_rules_fk_1"
 			deferrable="false" initiallyDeferred="false" onDelete="SET NULL"
 			onUpdate="SET NULL" referencedColumnNames="id" referencedTableName="warehouse" />
 			
 		<addForeignKeyConstraint baseColumnNames="warehouse_id"
-			baseTableName="warehouse_coupons" constraintName="warehouse_coupons_fk_1"
+			baseTableName="warehouse_coupons" constraintName="warehouse_warehouse_coupons_fk_1"
 			deferrable="false" initiallyDeferred="false" onDelete="SET NULL"
 			onUpdate="SET NULL" referencedColumnNames="id" referencedTableName="warehouse" />
 		<addForeignKeyConstraint baseColumnNames="coupon_id"
-			baseTableName="warehouse_coupons" constraintName="warehouse_coupons_fk_2"
+			baseTableName="warehouse_coupons" constraintName="coupons_warehouse_coupons_fk_1"
 			deferrable="false" initiallyDeferred="false" onDelete="SET NULL"
-			onUpdate="SET NULL" referencedColumnNames="id" referencedTableName="coupons" />		
+			onUpdate="SET NULL" referencedColumnNames="id" referencedTableName="coupons" />			
 			
 		<addForeignKeyConstraint baseColumnNames="warehouse_id"
-			baseTableName="warehouse_freight_rules" constraintName="warehouse_freight_rules_fk_1"
+			baseTableName="warehouse_catalogs" constraintName="warehouse_warehouse_catalogs_fk_1"
 			deferrable="false" initiallyDeferred="false" onDelete="SET NULL"
 			onUpdate="SET NULL" referencedColumnNames="id" referencedTableName="warehouse" />
 			
 		<addForeignKeyConstraint baseColumnNames="warehouse_id"
-			baseTableName="warehouse_asset" constraintName="warehouse_asset_fk_1"
+			baseTableName="warehouse_asset" constraintName="warehouse_warehouse_asset_fk_1"
 			deferrable="false" initiallyDeferred="false" onDelete="SET NULL"
 			onUpdate="SET NULL" referencedColumnNames="id" referencedTableName="warehouse" />
 		<addForeignKeyConstraint baseColumnNames="asset_id"
-			baseTableName="warehouse_asset" constraintName="warehouse_asset_fk_2"
+			baseTableName="warehouse_asset" constraintName="asset_warehouse_asset_fk_2"
 			deferrable="false" initiallyDeferred="false" onDelete="SET NULL"
 			onUpdate="SET NULL" referencedColumnNames="id" referencedTableName="asset" />	
 			
 		<addForeignKeyConstraint baseColumnNames="warehouse_id"
-			baseTableName="warehouse_cluster_mapping" constraintName="warehouse_cluster_mapping_fk_1"
+			baseTableName="warehouse_cluster_mapping" constraintName="warehouse_warehouse_cluster_mapping_fk_1"
 			deferrable="false" initiallyDeferred="false" onDelete="SET NULL"
 			onUpdate="SET NULL" referencedColumnNames="id" referencedTableName="warehouse" />
 		<addForeignKeyConstraint baseColumnNames="warehouse_cluster_id"
-			baseTableName="warehouse_cluster_mapping" constraintName="warehouse_cluster_mapping_fk_2"
+			baseTableName="warehouse_cluster_mapping" constraintName="warehouse_cluster_warehouse_cluster_mapping_fk_1"
 			deferrable="false" initiallyDeferred="false" onDelete="SET NULL"
 			onUpdate="SET NULL" referencedColumnNames="id" referencedTableName="warehouse_cluster" />			
 
+		<!-- orders -->
+		<addForeignKeyConstraint baseColumnNames="product_instance_id"
+			baseTableName="orders" constraintName="websites_orders_fk_1"
+			deferrable="false" initiallyDeferred="false" onDelete="SET NULL"
+			onUpdate="SET NULL" referencedColumnNames="id" referencedTableName="websites" />
+		<addForeignKeyConstraint baseColumnNames="user_id"
+			baseTableName="orders" constraintName="users_orders_fk_1"
+			deferrable="false" initiallyDeferred="false" onDelete="SET NULL"
+			onUpdate="SET NULL" referencedColumnNames="id" referencedTableName="users" />
+		
 		<addForeignKeyConstraint baseColumnNames="order_id"
-			baseTableName="order_recurrence_schedule" constraintName="order_recurrence_schedule_fk_1"
+			baseTableName="order_payment" constraintName="orders_order_payment_fk_1"
 			deferrable="false" initiallyDeferred="false" onDelete="SET NULL"
 			onUpdate="SET NULL" referencedColumnNames="id" referencedTableName="orders" />
 			
-		<addForeignKeyConstraint baseColumnNames="customer_id"
-			baseTableName="quote_request" constraintName="quote_request_fk_1"
-			deferrable="false" initiallyDeferred="false" onDelete="SET NULL"
-			onUpdate="SET NULL" referencedColumnNames="id" referencedTableName="customer" />
 		<addForeignKeyConstraint baseColumnNames="order_id"
-			baseTableName="quote_request" constraintName="quote_request_fk_2"
+			baseTableName="order_recurrence_schedule" constraintName="orders_order_recurrence_schedule_fk_1"
 			deferrable="false" initiallyDeferred="false" onDelete="SET NULL"
-			onUpdate="SET NULL" referencedColumnNames="id" referencedTableName="orders" />	
-			
-		<addForeignKeyConstraint baseColumnNames="quote_id"
-			baseTableName="quote_request_items" constraintName="quote_request_items_fk_1"
-			deferrable="false" initiallyDeferred="false" onDelete="SET NULL"
-			onUpdate="SET NULL" referencedColumnNames="id" referencedTableName="quote_request" />
+			onUpdate="SET NULL" referencedColumnNames="id" referencedTableName="orders" />
 			
 		<addForeignKeyConstraint baseColumnNames="order_id"
-			baseTableName="order_coupon_data" constraintName="order_coupon_data_fk_1"
+			baseTableName="order_items" constraintName="orders_order_items_fk_1"
 			deferrable="false" initiallyDeferred="false" onDelete="SET NULL"
 			onUpdate="SET NULL" referencedColumnNames="id" referencedTableName="orders" />	
 			
 		<addForeignKeyConstraint baseColumnNames="order_id"
-			baseTableName="order_payment" constraintName="order_payment_fk_1"
-			deferrable="false" initiallyDeferred="false" onDelete="SET NULL"
-			onUpdate="SET NULL" referencedColumnNames="id" referencedTableName="orders" />		
-				
-		<addForeignKeyConstraint baseColumnNames="order_id"
-			baseTableName="order_items" constraintName="order_items_fk_1"
+			baseTableName="order_coupon_data" constraintName="orders_order_coupon_data_fk_1"
 			deferrable="false" initiallyDeferred="false" onDelete="SET NULL"
 			onUpdate="SET NULL" referencedColumnNames="id" referencedTableName="orders" />	
-			
-		<addForeignKeyConstraint baseColumnNames="order_item_id"
-			baseTableName="order_items_shipped" constraintName="order_items_shipped_fk_1"
-			deferrable="false" initiallyDeferred="false" onDelete="SET NULL"
-			onUpdate="SET NULL" referencedColumnNames="id" referencedTableName="order_items" />	
 			
 		<addForeignKeyConstraint baseColumnNames="order_pool_id"
-			baseTableName="order_pool_items" constraintName="order_pool_items_fk_1"
+			baseTableName="order_pool_items" constraintName="order_pools_order_pool_items_fk_1"
 			deferrable="false" initiallyDeferred="false" onDelete="SET NULL"
-			onUpdate="SET NULL" referencedColumnNames="id" referencedTableName="order_pools" />	
+			onUpdate="SET NULL" referencedColumnNames="id" referencedTableName="order_pools" />			
 			
+		<!-- customer commn features -->	
 		<addForeignKeyConstraint baseColumnNames="comm_feature_option_id"
-			baseTableName="customer_comm_feature_option_values" constraintName="customer_comm_feature_option_values_fk_1"
+			baseTableName="customer_comm_feature_option_values" constraintName="comm_feature_option_values_fk_1"
 			deferrable="false" initiallyDeferred="false" onDelete="SET NULL"
-			onUpdate="SET NULL" referencedColumnNames="id" referencedTableName="comm_feature_options" />
-		<addForeignKeyConstraint baseColumnNames="customer_id"
-			baseTableName="customer_comm_feature_option_values" constraintName="customer_comm_feature_option_values_fk_2"
-			deferrable="false" initiallyDeferred="false" onDelete="SET NULL"
-			onUpdate="SET NULL" referencedColumnNames="id" referencedTableName="customer" />
+			onUpdate="SET NULL" referencedColumnNames="id" referencedTableName="comm_feature_options" />	
 			
+		<!-- customer -->	
+		<addForeignKeyConstraint baseColumnNames="country"
+		   	baseTableName="customer" constraintName="customer_country_fk_1"
+			onDelete="RESTRICT" onUpdate="RESTRICT" referencedColumnNames="id" referencedTableName="country" />			 
+		<addForeignKeyConstraint baseColumnNames="parent_id"
+			baseTableName="customer" constraintName="customer_customer_fk_1"
+			onDelete="RESTRICT" onUpdate="RESTRICT" referencedColumnNames="id" referencedTableName="customer" />
+		
 		<addForeignKeyConstraint baseColumnNames="customer_id"
 		   	baseTableName="customer_portal" constraintName="customer_portal_customer_id_fk_1"
 			onDelete="RESTRICT" onUpdate="RESTRICT" referencedColumnNames="id" referencedTableName="customer" />			 
+		<addForeignKeyConstraint baseColumnNames="secure_portal_id"
+			baseTableName="customer_portal" constraintName="customer_portal_secure_portal_fk_1"
+			onDelete="RESTRICT" onUpdate="RESTRICT" referencedColumnNames="id" referencedTableName="secure_portal" />
+		
+		<addForeignKeyConstraint baseColumnNames="customer_id"
+			baseTableName="customer_catalog" constraintName="customer_customer_catalog_fk_1"
+			onDelete="RESTRICT" onUpdate="RESTRICT" referencedColumnNames="id" referencedTableName="customer" />
+		
+		<addForeignKeyConstraint baseColumnNames="customer_id"
+			baseTableName="customer_documents" constraintName="customer_customer_documents_fk_1"
+			onDelete="RESTRICT" onUpdate="RESTRICT" referencedColumnNames="id" referencedTableName="customer" />
+		
+		<addForeignKeyConstraint baseColumnNames="customer_id"
+		  	baseTableName="customer_message" constraintName="customer_customer_message_fk_1"
+			onDelete="RESTRICT" onUpdate="RESTRICT" referencedColumnNames="id" referencedTableName="customer" />
+		
+		<addForeignKeyConstraint baseColumnNames="message_id"
+			baseTableName="message_tracker" constraintName="message_message_tracker_fk_1"
+			onDelete="RESTRICT" onUpdate="RESTRICT" referencedColumnNames="id" referencedTableName="message" />
+			
+		<addForeignKeyConstraint baseColumnNames="customer_id"
+		  	baseTableName="customer_part_number" constraintName="customer_customer_part_number_fk_1"
+			onDelete="RESTRICT" onUpdate="RESTRICT" referencedColumnNames="id" referencedTableName="customer" />	
+			
+		<addForeignKeyConstraint baseColumnNames="customer_id"
+		   	baseTableName="customer_websites" constraintName="customer_customer_websites_fk_1"
+			onDelete="RESTRICT" onUpdate="RESTRICT" referencedColumnNames="id" referencedTableName="customer" />			 
 		<addForeignKeyConstraint baseColumnNames="site_id"
-			baseTableName="customer_portal" constraintName="customer_portal_site_id_fk_2"
-			 onDelete="RESTRICT" onUpdate="RESTRICT" referencedColumnNames="id" referencedTableName="websites" />
-		
+			baseTableName="customer_websites" constraintName="websites_customer_websites_fk_1"
+			onDelete="RESTRICT" onUpdate="RESTRICT" referencedColumnNames="id" referencedTableName="websites" />
+			
 		<addForeignKeyConstraint baseColumnNames="customer_id"
-			baseTableName="customer_catalog" constraintName="customer_catalog_customer_id_fk_1"
-			onDelete="RESTRICT" onUpdate="RESTRICT" referencedColumnNames="id" referencedTableName="customer" />
-		
-		<addForeignKeyConstraint baseColumnNames="customer_id"
-			baseTableName="customer_documents" constraintName="customer_documents_customer_id_fk_1"
-			onDelete="RESTRICT" onUpdate="RESTRICT" referencedColumnNames="id" referencedTableName="customer" />
-		<addForeignKeyConstraint baseColumnNames="customer_id"
-		  	baseTableName="customer_message" constraintName="customer_message_customer_id_fk_1"
-			onDelete="RESTRICT" onUpdate="RESTRICT" referencedColumnNames="id" referencedTableName="customer" />
-		<addForeignKeyConstraint baseColumnNames="message_id"
-			baseTableName="customer_message" constraintName="customer_message_message_id_fk_2"
-			onDelete="RESTRICT" onUpdate="RESTRICT" referencedColumnNames="id" referencedTableName="message" />
-		
-		<addForeignKeyConstraint baseColumnNames="message_id"
-			baseTableName="message_tracker" constraintName="message_tracker_message_id_fk_1"
-			onDelete="RESTRICT" onUpdate="RESTRICT" referencedColumnNames="id" referencedTableName="message" />
+		   	baseTableName="customer_classification" constraintName="customer_customer_classification_fk_1"
+			onDelete="RESTRICT" onUpdate="RESTRICT" referencedColumnNames="id" referencedTableName="customer" />			 
+		<addForeignKeyConstraint baseColumnNames="customer_category_id"
+			baseTableName="customer_classification" constraintName="customer_category_customer_classification_fk_1"
+			onDelete="RESTRICT" onUpdate="RESTRICT" referencedColumnNames="id" referencedTableName="customer_category" />
+			
+		<addForeignKeyConstraint baseColumnNames="customer_category_id"
+			baseTableName="customer_category_message" constraintName="customer_category_customer_category_message_fk_1"
+			onDelete="RESTRICT" onUpdate="RESTRICT" referencedColumnNames="id" referencedTableName="customer_category" />
        
-        <addForeignKeyConstraint baseColumnNames="secure_portal_id"
-			baseTableName="secure_portal" constraintName="secure_portal_id_fk_1"
-			onDelete="RESTRICT" onUpdate="RESTRICT" referencedColumnNames="id" referencedTableName="customer_secure_portal" />
-	   
-	    <addForeignKeyConstraint baseColumnNames="customer_id"
-			baseTableName="customer_secure_portal" constraintName="customer_secure_portal_customer_id_fk_1"
-			onDelete="RESTRICT" onUpdate="RESTRICT" referencedColumnNames="id" referencedTableName="customer" />
-        
-        <addForeignKeyConstraint baseColumnNames="customer_id"
-			baseTableName="cimm_users" constraintName="cimm_users_customer_id_fk_1"
-			onDelete="RESTRICT" onUpdate="RESTRICT" referencedColumnNames="id" referencedTableName="customer" />
-	   
-	    <addForeignKeyConstraint baseColumnNames="customer_id"
-			baseTableName="customer_part_number" constraintName="customer_part_number_customer_id_fk_1"
-			onDelete="RESTRICT" onUpdate="RESTRICT" referencedColumnNames="id" referencedTableName="customer" />
-	    
-	    <addForeignKeyConstraint baseColumnNames="customer_id"
-			baseTableName="customer_websites" constraintName="customer_websites_customer_id_fk_1"
-			onDelete="RESTRICT" onUpdate="RESTRICT" referencedColumnNames="id" referencedTableName="customer" />
-		
-		<addForeignKeyConstraint baseColumnNames="customer_category_id"
-			baseTableName="customer_classification" constraintName="customer_classification_category_id_fk_1"
-			onDelete="RESTRICT" onUpdate="RESTRICT" referencedColumnNames="id" referencedTableName="customer_category" />
-		
-		<addForeignKeyConstraint baseColumnNames="customer_category_id"
-			baseTableName="customer_category_message" constraintName="customer_category_message_category_id_fk_1"
-			onDelete="RESTRICT" onUpdate="RESTRICT" referencedColumnNames="id" referencedTableName="customer_category" />
-		
-		<addForeignKeyConstraint baseColumnNames="customer_site_id"
-			baseTableName="product_group_list" constraintName="product_group_list_customer_site_id_fk_1"
+        <addForeignKeyConstraint baseColumnNames="customer_website_id"
+			baseTableName="product_group_list" constraintName="customer_websites_product_group_list_fk_1"
 			onDelete="RESTRICT" onUpdate="RESTRICT" referencedColumnNames="id" referencedTableName="customer_websites" />
-		
-		<addForeignKeyConstraint baseColumnNames="product_group_list_id"
-			baseTableName="product_group_list_items" constraintName="product_group_list_items_group_id_fk_1"
-			onDelete="RESTRICT" onUpdate="RESTRICT" referencedColumnNames="id" referencedTableName="product_group_list" />
-			 <!-- Cart -->
-		<addForeignKeyConstraint baseColumnNames="cart_id"
-			baseTableName="cart_share" constraintName="cart_customer_cart_id_fk_1"
-			onDelete="RESTRICT" onUpdate="RESTRICT" referencedColumnNames="id" referencedTableName="cart" />
-		
-		<addForeignKeyConstraint baseColumnNames="customer_category_id"
-			baseTableName="cart" constraintName="cart_customer_category_id_fk_1"
-			onDelete="RESTRICT" onUpdate="RESTRICT" referencedColumnNames="id" referencedTableName="customer_category" />
+	   
+	    <addForeignKeyConstraint baseColumnNames="product_group_list_id"
+			baseTableName="product_group_list_items" constraintName="product_group_list_product_group_list_items_fk_1"
+			onDelete="RESTRICT" onUpdate="RESTRICT" referencedColumnNames="id" referencedTableName="product_group_list" />	
+			
+		<!-- users -->	
 		<addForeignKeyConstraint baseColumnNames="customer_id"
-			baseTableName="cart" constraintName="cart_customer_id_fk_2"
-			onDelete="RESTRICT" onUpdate="RESTRICT" referencedColumnNames="id" referencedTableName="customer" />
+		   	baseTableName="users" constraintName="customer_users_fk_1"
+			onDelete="RESTRICT" onUpdate="RESTRICT" referencedColumnNames="id" referencedTableName="customer" />			 
+		<addForeignKeyConstraint baseColumnNames="site_id"
+			baseTableName="users" constraintName="websites_site_id_fk_1"
+			onDelete="RESTRICT" onUpdate="RESTRICT" referencedColumnNames="id" referencedTableName="websites" />
+		<addForeignKeyConstraint baseColumnNames="user_edited"
+			baseTableName="users" constraintName="users_users_fk_1"
+			onDelete="RESTRICT" onUpdate="RESTRICT" referencedColumnNames="id" referencedTableName="users" />	
+			
+		<!-- client_user_customer_link -->	
+		<addForeignKeyConstraint baseColumnNames="customer_id"
+		   	baseTableName="client_user_customer_link" constraintName="customer_client_user_customer_link_fk_1"
+			onDelete="RESTRICT" onUpdate="RESTRICT" referencedColumnNames="id" referencedTableName="customer" />			 
+		<addForeignKeyConstraint baseColumnNames="user_id"
+			baseTableName="client_user_customer_link" constraintName="users_client_user_customer_link_fk_1"
+			onDelete="RESTRICT" onUpdate="RESTRICT" referencedColumnNames="id" referencedTableName="users" />	
+		
+		<!-- client_user_ecommerce_role -->
+		<addForeignKeyConstraint baseColumnNames="user_id"
+			baseTableName="client_user_ecommerce_role" constraintName="users_client_user_ecommerce_role_fk_1"
+			onDelete="RESTRICT" onUpdate="RESTRICT" referencedColumnNames="id" referencedTableName="users" />	
+				
+		<!-- user_verification -->
+		<addForeignKeyConstraint baseColumnNames="user_id"
+			baseTableName="user_verification" constraintName="users_user_verification_fk_1"
+			onDelete="RESTRICT" onUpdate="RESTRICT" referencedColumnNames="id" referencedTableName="users" />	
+			
+		<!-- cart -->	
+		<addForeignKeyConstraint baseColumnNames="customer_id"
+		   	baseTableName="cart" constraintName="customer_cart_fk_1"
+			onDelete="RESTRICT" onUpdate="RESTRICT" referencedColumnNames="id" referencedTableName="customer" />			 
+		<addForeignKeyConstraint baseColumnNames="customer_category_id"
+			baseTableName="cart" constraintName="customer_category_cart_fk_1"
+			onDelete="RESTRICT" onUpdate="RESTRICT" referencedColumnNames="id" referencedTableName="customer_category" />	
+			
+		<addForeignKeyConstraint baseColumnNames="cart_id"
+			baseTableName="cart_share" constraintName="cart_cart_share_fk_1"
+			onDelete="RESTRICT" onUpdate="RESTRICT" referencedColumnNames="id" referencedTableName="cart" />
 		
 		<addForeignKeyConstraint baseColumnNames="cart_id"
-			baseTableName="cart_items" constraintName="cart_items_cart_id_fk_1"
+			baseTableName="cart_items" constraintName="cart_cart_items_fk_1"
 			onDelete="RESTRICT" onUpdate="RESTRICT" referencedColumnNames="id" referencedTableName="cart" />
-		<addForeignKeyConstraint baseColumnNames="parent_cart_item_id"
-			baseTableName="cart_items" constraintName="cart_items_parent_cart_item_id_fk_2"
-			onDelete="RESTRICT" onUpdate="RESTRICT" referencedColumnNames="id" referencedTableName="cart_items" />	
-			 <!-- Events -->
+		
+		<!-- events -->	
 		<addForeignKeyConstraint baseColumnNames="event_id"
-			baseTableName="event_registration" constraintName="event_registration_event_id_fk_1"
+			baseTableName="event_registration" constraintName="events_event_registration_fk_1"
 			onDelete="RESTRICT" onUpdate="RESTRICT" referencedColumnNames="id" referencedTableName="events" />
+			
+		<!-- profile_criteria -->	
+		<addForeignKeyConstraint baseColumnNames="profile_id"
+			baseTableName="profile_criteria" constraintName="profiles_profile_criteria_fk_1"
+			onDelete="RESTRICT" onUpdate="RESTRICT" referencedColumnNames="id" referencedTableName="profiles" />	
+			
+		<!-- subset -->	
+		<addForeignKeyConstraint baseColumnNames="site_id"
+		   	baseTableName="subset" constraintName="websites_subset_fk_1"
+			onDelete="RESTRICT" onUpdate="RESTRICT" referencedColumnNames="id" referencedTableName="websites" />			 
+		<addForeignKeyConstraint baseColumnNames="user_edited"
+			baseTableName="subset" constraintName="users_subset_fk_1"
+			onDelete="RESTRICT" onUpdate="RESTRICT" referencedColumnNames="id" referencedTableName="users" />
+			
+		<!-- country -->
+		<addForeignKeyConstraint baseColumnNames="user_edited"
+			baseTableName="country" constraintName="users_country_fk_1"
+			onDelete="RESTRICT" onUpdate="RESTRICT" referencedColumnNames="id" referencedTableName="users" />
+			
+		<!-- state_code -->
+		<addForeignKeyConstraint baseColumnNames="user_edited"
+			baseTableName="state_code" constraintName="users_state_code_fk_1"
+			onDelete="RESTRICT" onUpdate="RESTRICT" referencedColumnNames="id" referencedTableName="users" />
+		<addForeignKeyConstraint baseColumnNames="country_code"
+			baseTableName="state_code" constraintName="country_state_code_fk_1"
+			onDelete="RESTRICT" onUpdate="RESTRICT" referencedColumnNames="id" referencedTableName="country" />	
+			
+		<!-- static_pages -->
+		<addForeignKeyConstraint baseColumnNames="user_edited"
+			baseTableName="static_pages" constraintName="users_static_pages_fk_1"
+			onDelete="RESTRICT" onUpdate="RESTRICT" referencedColumnNames="id" referencedTableName="users" />
+		<addForeignKeyConstraint baseColumnNames="site_id"
+			baseTableName="static_pages" constraintName="websites_static_pages_fk_1"
+			onDelete="RESTRICT" onUpdate="RESTRICT" referencedColumnNames="id" referencedTableName="websites" />
+			
+		<!-- customer_credit_install_schedule -->
+		<addForeignKeyConstraint baseColumnNames="customer_credit_terms_id"
+			baseTableName="customer_credit_install_schedule" constraintName="cus_cred_ter_cus_cred_ins_sched_fk_1"
+			onDelete="RESTRICT" onUpdate="RESTRICT" referencedColumnNames="id" referencedTableName="customer_credit_terms" />					
 
+		<!-- customer_profile -->
+		<addForeignKeyConstraint baseColumnNames="customer_id"
+			baseTableName="customer_profile" constraintName="customer_customer_profile_fk_1"
+			onDelete="RESTRICT" onUpdate="RESTRICT" referencedColumnNames="id" referencedTableName="customer" />
+		<addForeignKeyConstraint baseColumnNames="profile_id"
+			baseTableName="customer_profile" constraintName="profiles_customer_profile_fk_1"
+			onDelete="RESTRICT" onUpdate="RESTRICT" referencedColumnNames="id" referencedTableName="profiles" />
+		
+		<!-- order_notification_confirmation -->
+		<addForeignKeyConstraint baseColumnNames="order_id"
+			baseTableName="order_notification_confirmation" constraintName="orders_order_notification_confirmation_fk_1"
+			onDelete="RESTRICT" onUpdate="RESTRICT" referencedColumnNames="id" referencedTableName="orders" />	
+			
+		<!-- order_track_details -->
+		<addForeignKeyConstraint baseColumnNames="order_id"
+			baseTableName="order_track_details" constraintName="orders_order_track_details_fk_1"
+			onDelete="RESTRICT" onUpdate="RESTRICT" referencedColumnNames="id" referencedTableName="orders" />	
+			
+		<!-- order_shipment_details -->
+		<addForeignKeyConstraint baseColumnNames="order_id"
+			baseTableName="order_shipment_details" constraintName="orders_order_shipment_details_fk_1"
+			onDelete="RESTRICT" onUpdate="RESTRICT" referencedColumnNames="id" referencedTableName="orders" />
+			
+		<!-- saved_cart -->
+		<addForeignKeyConstraint baseColumnNames="user_id"
+			baseTableName="saved_cart" constraintName="users_saved_cart_fk_1"
+			onDelete="RESTRICT" onUpdate="RESTRICT" referencedColumnNames="id" referencedTableName="users" />
+		<addForeignKeyConstraint baseColumnNames="site_id"
+			baseTableName="saved_cart" constraintName="websites_saved_cart_fk_1"
+			onDelete="RESTRICT" onUpdate="RESTRICT" referencedColumnNames="id" referencedTableName="websites" />		
+			
+		<!-- saved_cart_items -->
+		<addForeignKeyConstraint baseColumnNames="saved_cart_id"
+			baseTableName="saved_cart_items" constraintName="saved_cart_items_saved_cart_items_fk_1"
+			onDelete="RESTRICT" onUpdate="RESTRICT" referencedColumnNames="id" referencedTableName="saved_cart" />	
+			
 	</changeSet>
 </databaseChangeLog>
