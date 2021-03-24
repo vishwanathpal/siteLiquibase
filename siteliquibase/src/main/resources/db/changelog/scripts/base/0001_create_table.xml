@@ -4448,6 +4448,10 @@
 				remarks="Stores the USER_ID of the user who has added or edited the entry">
 				<constraints nullable="false" unique="false" />
 			</column>
+			<column name="country_code" type="VARCHAR(20)"
+				remarks="Country code">
+				<constraints nullable="false" unique="true" uniqueConstraintName="country_uk_1" />
+			</column>
 			<column name="country_name" type="VARCHAR(60)"
 				remarks="Store the name of the country">
 				<constraints nullable="false" unique="true" />
