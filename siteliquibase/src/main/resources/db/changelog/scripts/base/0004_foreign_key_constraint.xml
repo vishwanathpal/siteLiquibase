@@ -89,7 +89,12 @@
 		<addForeignKeyConstraint baseColumnNames="order_id"
 			baseTableName="order_items" constraintName="orders_order_items_fk_1"
 			deferrable="false" initiallyDeferred="false" onDelete="RESTRICT"
-			onUpdate="RESTRICT" referencedColumnNames="id" referencedTableName="orders" />	
+			onUpdate="RESTRICT" referencedColumnNames="id" referencedTableName="orders" />
+			
+		<addForeignKeyConstraint baseColumnNames="order_item_id"
+			baseTableName="order_items_shipped" constraintName="order_items_order_items_shipped_fk_1"
+			deferrable="false" initiallyDeferred="false" onDelete="RESTRICT"
+			onUpdate="RESTRICT" referencedColumnNames="id" referencedTableName="order_items" />		
 			
 		<addForeignKeyConstraint baseColumnNames="order_id"
 			baseTableName="order_coupon_data" constraintName="orders_order_coupon_data_fk_1"
@@ -159,6 +164,9 @@
 		<addForeignKeyConstraint baseColumnNames="customer_category_id"
 			baseTableName="customer_category_message" constraintName="customer_category_customer_category_message_fk_1"
 			onDelete="RESTRICT" onUpdate="RESTRICT" referencedColumnNames="id" referencedTableName="customer_category" />
+       <addForeignKeyConstraint baseColumnNames="message_id"
+			baseTableName="customer_category_message" constraintName="message_customer_category_message_fk_1"
+			onDelete="RESTRICT" onUpdate="RESTRICT" referencedColumnNames="id" referencedTableName="message" />
        
         <addForeignKeyConstraint baseColumnNames="customer_website_id"
 			baseTableName="product_group_list" constraintName="customer_websites_product_group_list_fk_1"

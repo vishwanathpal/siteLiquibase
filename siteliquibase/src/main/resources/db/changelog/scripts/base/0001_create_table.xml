@@ -1816,6 +1816,7 @@
 			<column name="id" type="BIGINT(20)" remarks="primary key">
 				<constraints nullable="false" unique="true" primaryKey="true" />
 			</column>
+			<!-- FK reference table order_items -->
 			<column name="order_item_id" type="BIGINT(20)"
 				remarks="Item's id of ordered">
 				<constraints nullable="true" unique="false" />
@@ -2964,6 +2965,7 @@
 				remarks="Customer category id">
 				<constraints nullable="false" unique="false" />
 			</column>
+			<!-- FK reference table message -->
 			<column name="message_id" type="BIGINT(20)"
 				remarks="Message id">
 				<constraints nullable="true" unique="false" />
